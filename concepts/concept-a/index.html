@@ -12,7 +12,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preload" as="font" href="/fonts/OrpheusPro.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="font" href="/fonts/AGaramondPro-Regular.woff2" type="font/woff2" crossorigin />
-  <link rel="preload" as="image" href="/img/fire-flames-1920.webp" />
+  <link rel="preload" as="image" href="/img/fire-flames-1920.webp" imagesrcset="/img/fire-flames-1200.webp 1200w, /img/fire-flames-1920.webp 1920w" imagesizes="100vw" />
   <link rel="stylesheet" href="/src/fonts.css" />
   <link rel="stylesheet" href="/src/styles.css" />
 </head>
@@ -79,7 +79,6 @@
         <span class="hero__sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <span class="hero__sound-txt">Sound</span>
       </button>
-      <div class="hero__scroll" aria-hidden="true"><span></span></div>
     </section>
 
     <!-- STATEMENT + INK BRONCO -->
@@ -99,7 +98,6 @@
 
     <!-- THE PARRILLA: sticky stack of three frames -->
     <section class="parrilla" id="parrilla" aria-label="The Parrilla">
-      <div class="parrilla__label"><span>The Parrilla</span></div>
       <div class="stack" data-stack>
         <article class="frame">
           <img src="/img/interior-parrilla-fire-1-1920.webp" srcset="/img/interior-parrilla-fire-1-1200.webp 1200w, /img/interior-parrilla-fire-1-1920.webp 1920w" sizes="100vw" alt="Flames rising from the wood-fired parrilla grill" loading="lazy" decoding="async" />
@@ -123,7 +121,7 @@
         <div class="forge__fallback" aria-hidden="true"><div class="ink ink--bronco"></div></div>
         <div class="forge__copy">
           <h2>Every rancho<br />carried a mark.</h2>
-          <p>Ours is the bronc and the lariat. Cast in iron, kept over the fire, and pressed into everything that leaves the kitchen.</p>
+          <p>Ours is the bronc and the lariat. Cast in iron and kept over the fire.</p>
         </div>
       </div>
     </section>
@@ -135,8 +133,8 @@
         <span class="cutout__txt cutout__txt--2" data-cutout>WESTERN</span>
       </div>
       <div class="cutout__copy">
-        <p class="cutout__lead">Not Tex-Mex. Not just a Mexican restaurant.</p>
-        <p>A Western table: grilled meats, house salsas, King City pink beans, and the Californio spice rub the family has kept for generations. Cooked over fire the way the vaqueros and buckaroos of the Great Basin always did.</p>
+        <p class="cutout__lead">A ranch table, cooked over fire.</p>
+        <p>Grilled meats, house salsas, pink beans, and the Californio spice rub the family has kept for generations. Cooked the way the vaqueros and buckaroos of the Great Basin always did: over oak, on iron, outdoors.</p>
       </div>
     </section>
 
@@ -144,7 +142,7 @@
     <section class="menu" id="menu">
       <div class="menu__head">
         <h2>From the fire</h2>
-        <a class="link-rule" href="https://www.ranchocantina.com/menu-lafayette" target="_blank" rel="noopener">Full menu</a>
+        <a class="link-rule" href="https://www.ranchocantina.com/menu-lafayette" target="_blank" rel="noopener">Lafayette menu</a>
       </div>
       <div class="menu__grid">
         <div class="menu__visual" aria-hidden="true">
@@ -214,7 +212,7 @@
     <section class="cantina" id="cantina">
       <div class="cantina__pin" data-pan>
         <div class="cantina__head">
-          <h2>The cantina<br />keeps late hours.</h2>
+          <h2>The cantina<br />keeps its own hours.</h2>
           <p>Handcrafted margaritas, mezcal, and a full bar. Happy hour, Taco Tuesdays, and Sunday brunch on the river.</p>
         </div>
         <div class="cantina__track" data-pan-track>
@@ -228,7 +226,7 @@
           </figure>
           <figure class="card">
             <img src="/img/interior-bottles-glow-1200.webp" alt="Tequila bottles glowing along the back bar" loading="lazy" decoding="async" />
-            <figcaption><span>Humo Tropical</span><small>Mezcal, lime, bitters, orgeat, mint</small></figcaption>
+            <figcaption><span>The Mezcal Shelf</span><small>Mezcal, tequila, and a little smoke</small></figcaption>
           </figure>
           <figure class="card">
             <img src="/img/drink-margaritas-4-1200.webp" alt="Two margaritas on the bar in evening light" loading="lazy" decoding="async" />
@@ -236,7 +234,7 @@
           </figure>
           <figure class="card card--tall">
             <img src="/img/interior-bar-bottles-1200.webp" alt="The back bar lined with tequila and mezcal" loading="lazy" decoding="async" />
-            <figcaption><span>The Back Bar</span><small>Agave, oak, and smoke</small></figcaption>
+            <figcaption><span>Humo Tropical</span><small>Mezcal, lime, bitters, orgeat, mint</small></figcaption>
           </figure>
         </div>
       </div>
@@ -249,7 +247,7 @@
         <div class="ink ink--vaquero" aria-hidden="true"></div>
       </figure>
       <div class="story__copy">
-        <h2>A family table,<br />moved West.</h2>
+        <h2>A family table,<br />on the Truckee.</h2>
         <p>Rancho Cantina started as a family restaurant, and the recipes still come from that kitchen. In Reno they meet the Great Basin: Nevada beef, open fire, pine nuts and sagebrush country, and the buckaroo tradition of cooking over coals.</p>
         <p>The rancho was never just land. It was the place where people gathered, work was respected, and strangers became friends. That is the whole idea.</p>
         <p class="story__sig">Rancho by tradition. Reno by nature. Always by heart.</p>
@@ -259,7 +257,7 @@
     <!-- VISIT -->
     <section class="visit" id="visit">
       <div class="visit__bg" aria-hidden="true">
-        <img src="/img/reno-building-ink-1-1920.png" alt="" loading="lazy" decoding="async" />
+        <img src="/img/reno-building-ink-1-1200.webp" srcset="/img/reno-building-ink-1-720.webp 720w, /img/reno-building-ink-1-1200.webp 1200w" sizes="70vw" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="visit__grid">
         <div class="visit__addr">

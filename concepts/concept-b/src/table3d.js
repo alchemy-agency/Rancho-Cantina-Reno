@@ -6,9 +6,9 @@ const DISHES = [
   { src: '/img/food-whole-fish-720.webp', name: 'Whole Fish' },
   { src: '/img/food-tacos-45-720.webp', name: 'Taco Trio' },
   { src: '/img/food-bbq-oysters-720.webp', name: 'BBQ Oysters' },
-  { src: '/img/food-skillet-sizzling-720.webp', name: 'Fajitas Skillet Trio' },
+  { src: '/img/food-skillet-sizzling-720.webp', name: 'Vaquero Platter' },
   { src: '/img/food-chicken-wings-720.webp', name: 'Mexican Chicken Wings' },
-  { src: '/img/drink-rancho-margarita-720.webp', name: 'Rancho Margarita' },
+  { src: '/img/food-spread-overhead-720.webp', name: 'Carne Asada' },
 ]
 
 function archAlpha() {
@@ -57,7 +57,7 @@ export async function createTable(canvas, onCaption) {
   scene.add(group)
 
   let active = true
-  let progress = 0
+  let raf = 0
   const cam = { z: 10, x: 0, y: 0 }
   const cur = { z: 10, x: 0, y: 0 }
   const START = 10, END = 3 - (DISHES.length - 1) * 3.6 - 4.5
@@ -78,8 +78,8 @@ export async function createTable(canvas, onCaption) {
   let lastCaption = -1
   const clock = new THREE.Clock()
   const loop = () => {
-    requestAnimationFrame(loop)
-    if (!active) return
+    raf = requestAnimationFrame(loop)
+    if (!active || document.hidden) return
     const t = clock.getElapsedTime()
     cur.z += (cam.z - cur.z) * 0.08
     cur.x += (cam.x - cur.x) * 0.08
@@ -93,7 +93,6 @@ export async function createTable(canvas, onCaption) {
 
   return {
     setProgress(p) {
-      progress = p
       cam.z = START + (END - START) * p
       cam.x = Math.sin(p * Math.PI * 2) * 0.35
       cam.y = Math.cos(p * Math.PI * 1.5) * 0.25
@@ -105,5 +104,6 @@ export async function createTable(canvas, onCaption) {
     },
     setActive(v) { active = v },
     resize,
+    dispose() { cancelAnimationFrame(raf); geo.dispose(); textures.forEach((t) => t.dispose()); alpha.dispose(); renderer.dispose() },
   }
 }

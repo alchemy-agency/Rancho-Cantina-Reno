@@ -36,6 +36,8 @@ const setMnav = (open) => {
   document.documentElement.style.overflow = open ? 'hidden' : ''
 }
 burger.addEventListener('click', () => setMnav(mnav.hidden))
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mnav.hidden) setMnav(false) })
+ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom 70%', toggleClass: { targets: document.body, className: 'is-hero' } })
 
 qa('a[href^="#"]').forEach((a) => {
   a.addEventListener('click', (e) => {
@@ -76,7 +78,7 @@ const mountFilm = () => {
     listen(); setTimeout(listen, 800); setTimeout(listen, 2500)
   })
   window.addEventListener('message', (e) => {
-    if (!/youtube/.test(e.origin) || typeof e.data !== 'string') return
+    if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(e.origin) || typeof e.data !== 'string') return
     try {
       const d = JSON.parse(e.data)
       const state = d?.info?.playerState
@@ -150,10 +152,12 @@ const forgeCanvas = q('#forgeCanvas')
 const supportsWebGL = (() => {
   try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')) } catch { return false }
 })()
-if (!supportsWebGL || reduce) document.body.classList.add('no-webgl')
+const saveData = navigator.connection?.saveData === true
+if (!supportsWebGL || reduce || saveData) document.body.classList.add('no-webgl')
+forgeCanvas?.addEventListener('webglcontextlost', () => document.body.classList.add('no-webgl'))
 let forgeScene = null
 let forgeProgress = 0
-if (supportsWebGL && !reduce && forge) {
+if (supportsWebGL && !reduce && !saveData && forge) {
   ScrollTrigger.create({
     trigger: forge, start: 'top 140%', once: true,
     onEnter: async () => {
@@ -222,6 +226,7 @@ mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
     x: () => -distance(), ease: 'none',
     scrollTrigger: { trigger: pin, start: 'top top', end: () => `+=${distance()}`, pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1 },
   })
+  gsap.to('.cantina__head', { opacity: 0, y: -20, ease: 'none', scrollTrigger: { trigger: pin, start: 'top top', end: () => `+=${distance() * 0.22}`, scrub: true } })
   qa('.card img').forEach((img) => {
     gsap.fromTo(img, { xPercent: -6 }, { xPercent: 6, ease: 'none', scrollTrigger: { containerAnimation: tween, trigger: img, start: 'left right', end: 'right left', scrub: true } })
   })
@@ -257,22 +262,24 @@ if (finePointer && !reduce) {
 const modal = q('#reserveModal')
 const form = q('[data-reserve-form]')
 let lastFocus = null
+const inertTargets = () => qa('#main, #hdr, footer, .mbar')
 const openModal = () => {
   lastFocus = document.activeElement
   modal.hidden = false
+  inertTargets().forEach((el) => { el.inert = true })
   if (lenis) lenis.stop()
   document.documentElement.style.overflow = 'hidden'
   const date = q('#rsvDate')
   if (date && !date.value) {
-    const d = new Date(); d.setDate(d.getDate() + 1)
-    date.value = d.toISOString().slice(0, 10)
-    date.min = new Date().toISOString().slice(0, 10)
+    const fmt = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+    const d = new Date(); date.min = fmt(d); d.setDate(d.getDate() + 1); date.value = fmt(d)
   }
   if (!reduce) gsap.fromTo('.modal__panel', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' })
   setTimeout(() => q('#rsvParty')?.focus(), 50)
 }
 const closeModal = () => {
   modal.hidden = true
+  inertTargets().forEach((el) => { el.inert = false })
   if (lenis) lenis.start()
   document.documentElement.style.overflow = ''
   lastFocus?.focus?.()

@@ -31,13 +31,14 @@ export async function createForge(canvas) {
   ember2.position.set(4.5, -3, 2.5)
   scene.add(ember2)
 
+  const lite = window.innerWidth < 900
   const data = await new SVGLoader().loadAsync('/ink/bronco-3d.svg')
   const geos = []
   for (const path of data.paths) {
     const shapes = SVGLoader.createShapes(path)
     for (const shape of shapes) {
       try {
-        geos.push(new THREE.ExtrudeGeometry(shape, { depth: 70, bevelEnabled: true, bevelThickness: 8, bevelSize: 6, bevelSegments: 2, curveSegments: 3 }))
+        geos.push(new THREE.ExtrudeGeometry(shape, lite ? { depth: 60, bevelEnabled: false, curveSegments: 2 } : { depth: 70, bevelEnabled: true, bevelThickness: 8, bevelSize: 6, bevelSegments: 2, curveSegments: 3 }))
       } catch { /* skip degenerate strokes */ }
     }
   }
@@ -63,8 +64,7 @@ export async function createForge(canvas) {
   scene.add(ring)
 
   let active = true
-  let needsRender = true
-  let progress = 0
+  let raf = 0
   const target = { ry: 0, rx: 0, cz: 10 }
   const current = { ry: -0.7, rx: 0.25, cz: 11 }
 
@@ -79,15 +79,14 @@ export async function createForge(canvas) {
     ring.position.x = pivot.position.x
     camera.position.z = narrow ? 13 : 10
     target.cz = camera.position.z
-    needsRender = true
   }
   resize()
   window.addEventListener('resize', resize)
 
   const clock = new THREE.Clock()
   const loop = () => {
-    requestAnimationFrame(loop)
-    if (!active) return
+    raf = requestAnimationFrame(loop)
+    if (!active || document.hidden) return
     const t = clock.getElapsedTime()
     current.ry += (target.ry - current.ry) * 0.06
     current.rx += (target.rx - current.rx) * 0.06
@@ -105,14 +104,13 @@ export async function createForge(canvas) {
 
   return {
     setProgress(p) {
-      progress = p
       // sweep from left profile to right profile as the section scrolls through
       target.ry = -0.95 + p * 1.9
       target.rx = 0.3 - p * 0.5
       target.cz = (canvas.clientWidth < 900 ? 13 : 10) - Math.sin(p * Math.PI) * 1.6
-      needsRender = true
     },
     setActive(v) { active = v },
     resize,
+    dispose() { cancelAnimationFrame(raf); merged.dispose(); iron.dispose(); ring.geometry.dispose(); ring.material.dispose(); renderer.dispose() },
   }
 }
