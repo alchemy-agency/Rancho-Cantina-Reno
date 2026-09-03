@@ -37,7 +37,6 @@ const setMnav = (open) => {
 }
 burger.addEventListener('click', () => setMnav(mnav.hidden))
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mnav.hidden) setMnav(false) })
-ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom 70%', toggleClass: { targets: document.body, className: 'is-hero' } })
 
 qa('a[href^="#"]').forEach((a) => {
   a.addEventListener('click', (e) => {
@@ -51,55 +50,31 @@ qa('a[href^="#"]').forEach((a) => {
   })
 })
 
-/* ---------- hero: brand film (YouTube placeholder) ---------- */
-const yt = q('#heroYt')
+/* ---------- hero: self-hosted brand film ---------- */
+const film = q('#heroVideo')
 const soundBtn = q('#heroSound')
-let ytFrame = null
-let muted = true
-const ytCommand = (func, args = []) => {
-  if (!ytFrame?.contentWindow) return
-  ytFrame.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*')
-}
 const mountFilm = () => {
-  if (reduce || !yt) return
-  const id = yt.dataset.video
-  const params = new URLSearchParams({
-    autoplay: '1', mute: '1', loop: '1', playlist: id, controls: '0', rel: '0', playsinline: '1',
-    modestbranding: '1', iv_load_policy: '3', disablekb: '1', fs: '0', enablejsapi: '1', origin: location.origin,
-  })
-  ytFrame = document.createElement('iframe')
-  ytFrame.src = `https://www.youtube-nocookie.com/embed/${id}?${params}`
-  ytFrame.title = 'Rancho Cantina brand film'
-  ytFrame.allow = 'autoplay; encrypted-media; picture-in-picture'
-  ytFrame.setAttribute('tabindex', '-1')
-  // only reveal the film once the player reports it is actually playing (no grey frames)
-  ytFrame.addEventListener('load', () => {
-    const listen = () => ytFrame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), '*')
-    listen(); setTimeout(listen, 800); setTimeout(listen, 2500)
-  })
-  window.addEventListener('message', (e) => {
-    if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(e.origin) || typeof e.data !== 'string') return
-    try {
-      const d = JSON.parse(e.data)
-      const state = d?.info?.playerState
-      if (state === 1) yt.classList.add('is-playing')
-      if (state === -1 || state === 5) ytCommand('playVideo')
-    } catch { /* ignore non-JSON messages */ }
-  })
-  yt.appendChild(ytFrame)
+  if (reduce || !film) return
+  const hd = window.innerWidth >= 900 && !(navigator.connection?.saveData)
+  // H.264 everywhere it is supported, VP9/WebM for builds without it (Linux Chromium, some Firefox)
+  const canH264 = film.canPlayType('video/mp4; codecs="avc1.4d401f"') !== ''
+  film.src = canH264 ? (hd ? film.dataset.srcHd : film.dataset.srcSd) : film.dataset.srcWebm
+  film.muted = true
+  film.addEventListener('playing', () => film.classList.add('is-playing'), { once: true })
+  film.play().catch(() => { /* autoplay blocked: poster stays */ })
 }
-window.addEventListener('load', () => setTimeout(mountFilm, 400))
+window.addEventListener('load', () => setTimeout(mountFilm, 200))
 soundBtn?.addEventListener('click', () => {
-  muted = !muted
-  ytCommand(muted ? 'mute' : 'unMute')
-  if (!muted) ytCommand('playVideo')
-  soundBtn.setAttribute('aria-pressed', String(!muted))
-  soundBtn.setAttribute('aria-label', muted ? 'Turn sound on' : 'Turn sound off')
+  if (!film) return
+  film.muted = !film.muted
+  if (film.paused) film.play().catch(() => {})
+  soundBtn.setAttribute('aria-pressed', String(!film.muted))
+  soundBtn.setAttribute('aria-label', film.muted ? 'Turn sound on' : 'Turn sound off')
 })
 // pause the film when it leaves the viewport
 ScrollTrigger.create({
   trigger: '.hero', start: 'top top', end: 'bottom top',
-  onLeave: () => ytCommand('pauseVideo'), onEnterBack: () => ytCommand('playVideo'),
+  onLeave: () => film?.pause(), onEnterBack: () => film?.play().catch(() => {}),
 })
 
 /* ---------- entrance ---------- */
@@ -157,21 +132,38 @@ if (!supportsWebGL || reduce || saveData) document.body.classList.add('no-webgl'
 forgeCanvas?.addEventListener('webglcontextlost', () => document.body.classList.add('no-webgl'))
 let forgeScene = null
 let forgeProgress = 0
+let forgeBooting = null
+let forgeST = null
+
+// GPU warm-up: build the scene, upload the geometry and compile the shaders as soon as
+// the browser is idle after load, so the bronco is already drawn by the time it scrolls in.
+const bootForge = () => {
+  if (forgeBooting) return forgeBooting
+  forgeBooting = import('./forge3d.js')
+    .then(({ createForge }) => createForge(forgeCanvas))
+    .then((scene) => {
+      forgeScene = scene
+      scene.setProgress(forgeProgress)
+      scene.renderOnce()
+      scene.setActive(Boolean(forgeST?.isActive))
+      return scene
+    })
+    .catch((err) => {
+      console.warn('forge failed', err)
+      document.body.classList.add('no-webgl')
+    })
+  return forgeBooting
+}
+
 if (supportsWebGL && !reduce && !saveData && forge) {
-  ScrollTrigger.create({
-    trigger: forge, start: 'top 140%', once: true,
-    onEnter: async () => {
-      try {
-        const { createForge } = await import('./forge3d.js')
-        forgeScene = await createForge(forgeCanvas)
-        forgeScene.setProgress(forgeProgress)
-      } catch (err) {
-        console.warn('forge failed', err)
-        document.body.classList.add('no-webgl')
-      }
-    },
+  const warm = () => bootForge()
+  window.addEventListener('load', () => {
+    if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 2000 })
+    else setTimeout(warm, 500)
   })
-  ScrollTrigger.create({
+  // safety net: if the warm-up never ran, build it as the section approaches
+  ScrollTrigger.create({ trigger: forge, start: 'top 200%', once: true, onEnter: warm })
+  forgeST = ScrollTrigger.create({
     trigger: forge, start: 'top bottom', end: 'bottom top', scrub: true,
     onUpdate: (self) => { forgeProgress = self.progress; forgeScene?.setProgress(self.progress) },
     onToggle: (self) => forgeScene?.setActive(self.isActive),
@@ -262,7 +254,7 @@ if (finePointer && !reduce) {
 const modal = q('#reserveModal')
 const form = q('[data-reserve-form]')
 let lastFocus = null
-const inertTargets = () => qa('#main, #hdr, footer, .mbar')
+const inertTargets = () => qa('#main, #hdr, footer')
 const openModal = () => {
   lastFocus = document.activeElement
   modal.hidden = false

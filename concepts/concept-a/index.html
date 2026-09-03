@@ -7,12 +7,12 @@
   <meta name="description" content="Rancho Cantina Reno. Wood-fired Mex Western cooking on the banks of the Truckee River in Reno's Powning District. Opening Summer 2026. Reserve a table." />
   <meta property="og:title" content="Rancho Cantina Reno" />
   <meta property="og:description" content="Wood-fired cooking. Rooted in tradition. Timeless West." />
-  <meta property="og:image" content="/img/fire-flames-1200.webp" />
+  <meta property="og:image" content="/img/film-poster-a-1200.webp" />
   <meta name="theme-color" content="#121110" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preload" as="font" href="/fonts/OrpheusPro.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="font" href="/fonts/AGaramondPro-Regular.woff2" type="font/woff2" crossorigin />
-  <link rel="preload" as="image" href="/img/fire-flames-1920.webp" imagesrcset="/img/fire-flames-1200.webp 1200w, /img/fire-flames-1920.webp 1920w" imagesizes="100vw" />
+  <link rel="preload" as="image" href="/img/film-poster-a-1920.webp" imagesrcset="/img/film-poster-a-720.webp 720w, /img/film-poster-a-1200.webp 1200w, /img/film-poster-a-1920.webp 1920w" imagesizes="100vw" />
   <link rel="stylesheet" href="/src/fonts.css" />
   <link rel="stylesheet" href="/src/styles.css" />
 </head>
@@ -48,6 +48,7 @@
       <a href="#story">Story</a>
       <a href="#visit">Visit</a>
     </nav>
+    <button class="btn btn--ember btn--lg mnav__reserve js-reserve" type="button">Reserve a Table</button>
     <p class="mnav__meta">700 Riverside Drive, Reno<br />On the Truckee River. Opening Summer 2026.</p>
   </div>
 
@@ -57,9 +58,9 @@
     <section class="hero" id="top">
       <div class="hero__media" aria-hidden="true">
         <picture class="hero__poster">
-          <img src="/img/fire-flames-1920.webp" srcset="/img/fire-flames-1200.webp 1200w, /img/fire-flames-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async" />
+          <img src="/img/film-poster-a-1920.webp" srcset="/img/film-poster-a-720.webp 720w, /img/film-poster-a-1200.webp 1200w, /img/film-poster-a-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async" />
         </picture>
-        <div class="hero__yt" id="heroYt" data-video="VdTLtxfNG_o"></div>
+        <video class="hero__video" id="heroVideo" muted loop playsinline preload="metadata" poster="/img/film-poster-a-1920.webp" data-src-hd="/video/brandfilm-1080.mp4" data-src-sd="/video/brandfilm-720.mp4" data-src-webm="/video/brandfilm-720.webm"></video>
         <div class="hero__scrim"></div>
       </div>
 
@@ -104,7 +105,7 @@
           <div class="frame__copy"><h2>Oak and mesquite,<br />lit every morning.</h2></div>
         </article>
         <article class="frame">
-          <img src="/img/interior-parrilla-fire-3-1920.webp" srcset="/img/interior-parrilla-fire-3-1200.webp 1200w, /img/interior-parrilla-fire-3-1920.webp 1920w" sizes="100vw" alt="Meat searing on the iron grate over open flame" loading="lazy" decoding="async" />
+          <img src="/img/interior-parrilla-fire-2-1920.webp" srcset="/img/interior-parrilla-fire-2-1200.webp 1200w, /img/interior-parrilla-fire-2-1920.webp 1920w" sizes="100vw" alt="The cook working the iron grate over open flame" loading="lazy" decoding="async" />
           <div class="frame__copy"><h2>Iron grate.<br />Open flame. No shortcuts.</h2></div>
         </article>
         <article class="frame">
@@ -307,9 +308,6 @@
     </div>
   </footer>
 
-  <div class="mbar" aria-hidden="false">
-    <button class="btn btn--ember btn--block js-reserve" type="button">Reserve a Table</button>
-  </div>
 
   <!-- RESERVE MODAL -->
   <div class="modal" id="reserveModal" hidden role="dialog" aria-modal="true" aria-labelledby="reserveTitle">

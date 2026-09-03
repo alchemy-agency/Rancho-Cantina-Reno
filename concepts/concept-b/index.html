@@ -7,13 +7,13 @@
   <meta name="description" content="Rancho Cantina Reno. A wood-fired Mex Western table on the banks of the Truckee River in Reno's Powning District. Opening Summer 2026. Reserve a table." />
   <meta property="og:title" content="Rancho Cantina Reno" />
   <meta property="og:description" content="Where fire, food, and community meet." />
-  <meta property="og:image" content="/img/interior-parrilla-fire-2-1200.webp" />
+  <meta property="og:image" content="/img/film-poster-b-1200.webp" />
   <meta name="theme-color" content="#ece9e3" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preload" as="font" href="/fonts/OrpheusPro.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="font" href="/fonts/OrpheusPro-Italic.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="font" href="/fonts/AGaramondPro-Regular.woff2" type="font/woff2" crossorigin />
-  <link rel="preload" as="image" href="/img/interior-parrilla-fire-2-1920.webp" imagesrcset="/img/interior-parrilla-fire-2-1200.webp 1200w, /img/interior-parrilla-fire-2-1920.webp 1920w" imagesizes="100vw" />
+  <link rel="preload" as="image" href="/img/film-poster-b-1920.webp" imagesrcset="/img/film-poster-b-720.webp 720w, /img/film-poster-b-1200.webp 1200w, /img/film-poster-b-1920.webp 1920w" imagesizes="100vw" />
   <link rel="stylesheet" href="/src/fonts.css" />
   <link rel="stylesheet" href="/src/styles.css" />
 </head>
@@ -36,6 +36,7 @@
       <a href="#visit">Visit</a>
       <button class="btn btn--ember js-reserve" type="button" data-magnetic>Reserve a Table</button>
     </nav>
+    <button class="btn btn--ember hdr__reserve-m js-reserve" type="button">Reserve a Table</button>
     <button class="hdr__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span></button>
   </header>
 
@@ -47,6 +48,7 @@
       <a href="#trail">Heritage</a>
       <a href="#visit">Visit</a>
     </nav>
+    <button class="btn btn--ember btn--lg mnav__reserve js-reserve" type="button">Reserve a Table</button>
     <p class="mnav__meta">700 Riverside Drive, Reno, Nevada<br />On the Truckee River. Opening Summer 2026.</p>
   </div>
 
@@ -56,8 +58,8 @@
     <section class="hero" id="top">
       <div class="hero__frame">
         <div class="hero__media" aria-hidden="true">
-          <img class="hero__poster" src="/img/interior-parrilla-fire-2-1920.webp" srcset="/img/interior-parrilla-fire-2-1200.webp 1200w, /img/interior-parrilla-fire-2-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async" />
-          <div class="hero__yt" id="heroYt" data-video="VdTLtxfNG_o"></div>
+          <img class="hero__poster" src="/img/film-poster-b-1920.webp" srcset="/img/film-poster-b-720.webp 720w, /img/film-poster-b-1200.webp 1200w, /img/film-poster-b-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async" />
+          <video class="hero__video" id="heroVideo" muted loop playsinline preload="metadata" poster="/img/film-poster-b-1920.webp" data-src-hd="/video/brandfilm-1080.mp4" data-src-sd="/video/brandfilm-720.mp4" data-src-webm="/video/brandfilm-720.webm"></video>
           <div class="hero__scrim"></div>
         </div>
         <div class="hero__content">
@@ -79,10 +81,7 @@
       <p class="define__line">
         <span class="define__word">Rancho</span>
         <span class="define__pos">noun</span>
-        <span class="define__meaning">a place where people gather.
-          <span class="glyph glyph--hat" aria-hidden="true"></span> Where work is respected, meals are shared, and strangers become friends.
-          <span class="glyph glyph--fish" aria-hidden="true"></span> Where the cooking happens over oak and mesquite,
-          <span class="glyph glyph--skillet" aria-hidden="true"></span> and the table sits on the river.</span>
+        <span class="define__meaning">a place where people gather. Where work is respected, meals are shared, and strangers become friends. Where the cooking happens over oak and mesquite, and the table sits on the river.</span>
       </p>
     </section>
 
@@ -281,9 +280,6 @@
     <p class="ftr__legal">&copy; 2026 Rancho Cantina Reno. Concept B: High Desert. Photography and film from Rancho Cantina Lafayette shown as placeholders.</p>
   </footer>
 
-  <div class="mbar">
-    <button class="btn btn--ember btn--block js-reserve" type="button">Reserve a Table</button>
-  </div>
 
   <div class="modal" id="reserveModal" hidden role="dialog" aria-modal="true" aria-labelledby="reserveTitle">
     <div class="modal__backdrop" data-close></div>

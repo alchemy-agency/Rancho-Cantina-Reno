@@ -63,7 +63,7 @@ export async function createForge(canvas) {
   ring.position.z = -0.4
   scene.add(ring)
 
-  let active = true
+  let active = false
   let raf = 0
   const target = { ry: 0, rx: 0, cz: 10 }
   const current = { ry: -0.7, rx: 0.25, cz: 11 }
@@ -82,6 +82,11 @@ export async function createForge(canvas) {
   }
   resize()
   window.addEventListener('resize', resize)
+
+  // Compile shaders and upload buffers up front so the first visible frame is never a stall.
+  if (typeof renderer.compileAsync === 'function') await renderer.compileAsync(scene, camera)
+  else renderer.compile(scene, camera)
+  renderer.render(scene, camera)
 
   const clock = new THREE.Clock()
   const loop = () => {
@@ -108,6 +113,16 @@ export async function createForge(canvas) {
       target.ry = -0.95 + p * 1.9
       target.rx = 0.3 - p * 0.5
       target.cz = (canvas.clientWidth < 900 ? 13 : 10) - Math.sin(p * Math.PI) * 1.6
+    },
+    // paint one frame at the current scroll pose without starting the animation loop
+    renderOnce() {
+      current.ry = target.ry; current.rx = target.rx; current.cz = target.cz
+      pivot.rotation.y = current.ry
+      pivot.rotation.x = current.rx
+      ring.rotation.y = current.ry * 0.6
+      ring.rotation.x = current.rx * 0.6
+      camera.position.z = current.cz
+      renderer.render(scene, camera)
     },
     setActive(v) { active = v },
     resize,

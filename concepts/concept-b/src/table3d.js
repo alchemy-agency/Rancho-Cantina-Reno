@@ -60,7 +60,9 @@ export async function createTable(canvas, onCaption) {
   let raf = 0
   const cam = { z: 10, x: 0, y: 0 }
   const cur = { z: 10, x: 0, y: 0 }
-  const START = 10, END = 3 - (DISHES.length - 1) * 3.6 - 4.5
+  // Stop with the last plate still ahead of the camera, so the scroll never runs into empty space.
+  const LAST_Z = 3 - (DISHES.length - 1) * 3.6
+  const START = 10, END = LAST_Z + 2.4
 
   const resize = () => {
     const w = canvas.clientWidth || canvas.parentElement.clientWidth
@@ -96,10 +98,13 @@ export async function createTable(canvas, onCaption) {
       cam.z = START + (END - START) * p
       cam.x = Math.sin(p * Math.PI * 2) * 0.35
       cam.y = Math.cos(p * Math.PI * 1.5) * 0.25
-      // caption: nearest plane just ahead of the camera
+      // caption: the nearest plate still ahead of the camera
       let idx = 0
-      for (let i = 0; i < planes.length; i++) if (planes[i].userData.z < cam.z - 1.2) { idx = i; break }
-      if (cam.z - 1.2 < planes[planes.length - 1].userData.z) idx = planes.length - 1
+      let best = Infinity
+      for (let i = 0; i < planes.length; i++) {
+        const d = cam.z - planes[i].userData.z
+        if (d > 0.8 && d < best) { best = d; idx = i }
+      }
       if (idx !== lastCaption) { lastCaption = idx; onCaption?.(DISHES[idx].name) }
     },
     setActive(v) { active = v },

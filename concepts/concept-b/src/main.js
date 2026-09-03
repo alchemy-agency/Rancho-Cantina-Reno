@@ -37,7 +37,6 @@ const setMnav = (open) => {
 }
 burger.addEventListener('click', () => setMnav(mnav.hidden))
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mnav.hidden) setMnav(false) })
-ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom 70%', toggleClass: { targets: document.body, className: 'is-hero' } })
 qa('a[href^="#"]').forEach((a) => {
   a.addEventListener('click', (e) => {
     const id = a.getAttribute('href')
@@ -50,45 +49,28 @@ qa('a[href^="#"]').forEach((a) => {
   })
 })
 
-/* ---------- hero film (YouTube placeholder) ---------- */
-const yt = q('#heroYt')
+/* ---------- hero: self-hosted brand film ---------- */
+const film = q('#heroVideo')
 const soundBtn = q('#heroSound')
-let ytFrame = null
-let muted = true
-const ytCommand = (func, args = []) => ytFrame?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), '*')
 const mountFilm = () => {
-  if (reduce || !yt) return
-  const id = yt.dataset.video
-  const params = new URLSearchParams({ autoplay: '1', mute: '1', loop: '1', playlist: id, controls: '0', rel: '0', playsinline: '1', modestbranding: '1', iv_load_policy: '3', disablekb: '1', fs: '0', enablejsapi: '1', origin: location.origin })
-  ytFrame = document.createElement('iframe')
-  ytFrame.src = `https://www.youtube-nocookie.com/embed/${id}?${params}`
-  ytFrame.title = 'Rancho Cantina brand film'
-  ytFrame.allow = 'autoplay; encrypted-media; picture-in-picture'
-  ytFrame.setAttribute('tabindex', '-1')
-  ytFrame.addEventListener('load', () => {
-    const listen = () => ytFrame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), '*')
-    listen(); setTimeout(listen, 800); setTimeout(listen, 2500)
-  })
-  window.addEventListener('message', (e) => {
-    if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(e.origin) || typeof e.data !== 'string') return
-    try {
-      const d = JSON.parse(e.data)
-      const state = d?.info?.playerState
-      if (state === 1) yt.classList.add('is-playing')
-      if (state === -1 || state === 5) ytCommand('playVideo')
-    } catch { /* not a player message */ }
-  })
-  yt.appendChild(ytFrame)
+  if (reduce || !film) return
+  const hd = window.innerWidth >= 900 && !(navigator.connection?.saveData)
+  // H.264 everywhere it is supported, VP9/WebM for builds without it (Linux Chromium, some Firefox)
+  const canH264 = film.canPlayType('video/mp4; codecs="avc1.4d401f"') !== ''
+  film.src = canH264 ? (hd ? film.dataset.srcHd : film.dataset.srcSd) : film.dataset.srcWebm
+  film.muted = true
+  film.addEventListener('playing', () => film.classList.add('is-playing'), { once: true })
+  film.play().catch(() => { /* autoplay blocked: poster stays */ })
 }
-window.addEventListener('load', () => setTimeout(mountFilm, 400))
+window.addEventListener('load', () => setTimeout(mountFilm, 200))
 soundBtn?.addEventListener('click', () => {
-  muted = !muted
-  ytCommand(muted ? 'mute' : 'unMute')
-  if (!muted) ytCommand('playVideo')
-  soundBtn.setAttribute('aria-pressed', String(!muted))
-  soundBtn.setAttribute('aria-label', muted ? 'Turn sound on' : 'Turn sound off')
+  if (!film) return
+  film.muted = !film.muted
+  if (film.paused) film.play().catch(() => {})
+  soundBtn.setAttribute('aria-pressed', String(!film.muted))
+  soundBtn.setAttribute('aria-label', film.muted ? 'Turn sound on' : 'Turn sound off')
 })
-ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', onLeave: () => ytCommand('pauseVideo'), onEnterBack: () => ytCommand('playVideo') })
+ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', onLeave: () => film?.pause(), onEnterBack: () => film?.play().catch(() => {}) })
 
 /* ---------- entrance ---------- */
 if (!reduce) {
@@ -194,7 +176,7 @@ mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
   })
   qa('.stop').forEach((stop) => {
     const ink = stop.querySelector('[data-ink]')
-    gsap.fromTo(ink, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { containerAnimation: tween, trigger: stop, start: 'left 85%', end: 'left 40%', scrub: true } })
+    gsap.fromTo(ink, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { containerAnimation: tween, trigger: stop, start: 'left 100%', end: 'left 62%', scrub: true } })
     gsap.from([stop.querySelector('h2'), stop.querySelector('p'), stop.querySelector('.btn')].filter(Boolean), { y: 24, opacity: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out', scrollTrigger: { containerAnimation: tween, trigger: stop, start: 'left 75%' } })
   })
   return () => {}
@@ -224,7 +206,7 @@ if (finePointer && !reduce) {
 const modal = q('#reserveModal')
 const form = q('[data-reserve-form]')
 let lastFocus = null
-const inertTargets = () => qa('#main, #hdr, footer, .mbar')
+const inertTargets = () => qa('#main, #hdr, footer')
 const openModal = () => {
   lastFocus = document.activeElement
   modal.hidden = false
