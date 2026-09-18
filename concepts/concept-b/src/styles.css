@@ -135,8 +135,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Plate: the building drawing */
 .plate { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding: clamp(80px, 14vh, 170px) var(--gutter); }
 .plate__fig { margin: 0; }
-.plate__img { overflow: hidden; border: 1px solid var(--line-strong); background: #e6dfd0; }
-.plate__img img { width: 100%; mix-blend-mode: multiply; transform: scale(1.06); will-change: transform; }
+.plate__img { overflow: hidden; border: 1px solid var(--line-strong); background: var(--paper-2); }
+.plate__img img { width: 100%; transform: scale(1.06); will-change: transform; }
 .plate__fig figcaption { margin-top: 12px; font: italic 400 1.02rem/1.4 var(--f-body); color: var(--ash); }
 .plate__copy { max-width: 46ch; }
 .wm-flourish--rule { width: 72px; margin-bottom: 20px; }

@@ -7,7 +7,7 @@ Two single-page concept sites for the new Reno location (700 Riverside Drive, Po
 | Mood | After dark. Charcoal, bone, fire. Carbone / Nobu / Los Mochis energy. | Daylight. Paper, sagebrush green, charcoal ink. Gjelina / Puesto editorial warmth, elevated. |
 | Hero | Full-screen brand film, wordmark and copy centred over it, Reserve front and centre. | Brand film in a printed paper frame below the header, tagline centred, "Where fire, food, and community meet." |
 | Signature 3D | The client's bucking-bronc ink sketch extruded into cast iron and lit by embers, rotating with scroll. | Dish photographs cut into rancho arches and hung in space; the camera walks the table as you scroll. |
-| Ink | Bronc reveal beside the statement, vaquero over the family photo, the Riverside Drive rendering behind Visit. | Inline glyphs in the definition line, the Riverside Drive rendering as a plate, a pinned heritage trail drawn in ink (vaquero, wagon, bronc, hat). |
+| Ink | Bronc reveal beside the statement, vaquero over the Story photo. | A pinned heritage trail drawn in ink (vaquero, wagon, bronc, hat). |
 | Cutouts | "MEX-WESTERN" giant type filled with fire. | Arch-cut photography, paper-cut shadows. |
 | Menu | "Menu Highlights": sticky photograph that swaps as you move through the dish list. | Printed menu card with three groups and a bleeding overhead photograph. |
 | Cantina | Pinned horizontal pan of cocktails. | Sagebrush block with a 2+1 grid and pointer tilt. |
@@ -24,7 +24,7 @@ Two single-page concept sites for the new Reno location (700 Riverside Drive, Po
 ## Placeholders
 
 - Hero film: the real Rancho Cantina brand film, self-hosted from `public/video/`, **cut to start at 22.4s** so it opens on the parrilla and skips the Lafayette building and dining-room establishing shots. Served as `brandfilm-1080.mp4` on desktop, `brandfilm-720.mp4` on phones and Data Saver, and `brandfilm-720.webm` where H.264 is unavailable. Muted and looping over a poster frame pulled from the cut, with a sound toggle. Source is `RC Brand Film_HD.mp4` from the agency Drive. Swap for a Reno parrilla cut when it exists.
-- Photography: Rancho Cantina Lafayette and Danville shoots from the agency Drive. Concept A's Story photo is the client's own Reno riverside deck render, standing in until they supply Truckee River imagery.
+- Photography: Rancho Cantina Lafayette and Danville shoots from the agency Drive for food, drink and interiors. The Reno building itself is the client's real exterior photograph (`reno-exterior-*.webp`), used in Concept A's Story and Visit sections and Concept B's plate. All concept art and AI renders of the building have been removed.
 - Menu: real Lafayette dishes trimmed to a signature set, with prices removed.
 - Reservations: modal collects party, date, and time and shows the handoff; wire to the real OpenTable ID at launch.
 - Phone number and social handles for Reno are not yet published; the footer links to Instagram and Facebook placeholders and the Lafayette site.
