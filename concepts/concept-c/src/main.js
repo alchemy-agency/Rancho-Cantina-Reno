@@ -218,7 +218,7 @@ if (finePointer && !reduce) {
 const modal = q('#reserveModal')
 const form = q('[data-reserve-form]')
 let lastFocus = null
-const inertTargets = () => qa('#main, #hdr, footer')
+const inertTargets = () => qa('.skip, #main, #hdr, footer')
 const openModal = () => {
   lastFocus = document.activeElement
   modal.hidden = false
@@ -251,10 +251,12 @@ const gwStore = {
   set(v) { try { localStorage.setItem(GW_KEY, JSON.stringify(v)) } catch { /* storage blocked: the page still works */ } },
 }
 const gw = q('#giveaway')
-const gwPanel = q('.gw', gw)
-const gwForm = q('.gw__form', gw)
+const gwPanel = gw && q('.gw', gw)
+const gwForm = gw && q('.gw__form', gw)
 let gwFocus = null
 let gwShown = false
+let gwJoined = false
+const gwJoin = () => { gwJoined = true; gwStore.set({ state: 'joined', at: Date.now() }) }
 const gwOpen = () => {
   if (gwShown || !gw) return
   gwShown = true
@@ -276,38 +278,53 @@ const gwClose = () => {
   inertTargets().forEach((el) => { el.inert = false })
   if (lenis) lenis.start()
   document.documentElement.style.overflow = ''
-  if (gwStore.get()?.state !== 'joined') gwStore.set({ state: 'dismissed', at: Date.now() })
+  if (!gwJoined && gwStore.get()?.state !== 'joined') gwStore.set({ state: 'dismissed', at: Date.now() })
   gwFocus?.focus?.({ preventScroll: true })
 }
-qa('[data-gw-close]', gw || document).forEach((el) => el.addEventListener('click', gwClose))
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && gw && !gw.hidden) gwClose() })
-gwForm?.addEventListener('submit', (e) => {
-  e.preventDefault()
-  const input = q('input', gwForm); const msg = q('.gw__msg', gwForm)
-  if (!input.value || !input.checkValidity()) { msg.textContent = 'Enter a valid email address.'; input.focus(); return }
-  gwStore.set({ state: 'joined', at: Date.now() })
-  gwPanel.classList.add('is-done')
-  msg.textContent = 'You are on the list. We will write before opening night.'
-  input.value = ''
-  gwPanel.focus({ preventScroll: true })
-})
+if (gw) {
+  qa('[data-gw-close]', gw).forEach((el) => el.addEventListener('click', gwClose))
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !gw.hidden) gwClose() })
+  gwForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const input = q('input', gwForm); const msg = q('.gw__msg', gwForm)
+    if (!input.value || !input.checkValidity()) {
+      input.setAttribute('aria-invalid', 'true')
+      msg.textContent = 'Enter a valid email address.'
+      input.focus()
+      return
+    }
+    input.removeAttribute('aria-invalid')
+    gwJoin()
+    gwPanel.classList.add('is-done')
+    q('.gw__skip', gw).textContent = 'Back to the site'
+    msg.textContent = 'You are on the list. We will write before opening night.'
+    input.value = ''
+    gwPanel.focus({ preventScroll: true })
+  })
+}
 
 // Show it once the visitor is settled in: past the hero film, or 20 seconds on the page, never in the first 6.
+// Only visible time counts, and it waits while a dialog, the phone menu, a scroll, or typing is in progress.
 const gwPreview = new URLSearchParams(location.search).has('giveaway')
 const gwSeen = gwStore.get()
-const gwEligible = gw && (gwPreview || !gwSeen || (gwSeen.state === 'dismissed' && Date.now() - (gwSeen.at || 0) > GW_REST))
-if (gwEligible) {
-  const start = performance.now()
+const gwResting = gwSeen?.state === 'joined' ||
+  (gwSeen?.state === 'dismissed' && Number.isFinite(gwSeen.at) && gwSeen.at <= Date.now() && Date.now() - gwSeen.at < GW_REST)
+if (gw && (gwPreview || !gwResting)) {
+  const STEP = 500
   const minWait = gwPreview ? 1200 : 6000
-  const busy = () => !modal.hidden || !mnav.hidden
+  let seen = 0
+  const busy = () => !modal.hidden || !mnav.hidden || !!lenis?.isScrolling || !!document.activeElement?.matches?.('input, textarea, select')
   const pastHero = () => { const hero = q('.hero'); return !hero || hero.getBoundingClientRect().bottom < window.innerHeight * 0.5 }
+  // fetch the photo after the page has loaded so it is ready when the lightbox opens
+  const warm = () => { const im = q('.gw__photo img', gw); if (im) im.loading = 'eager' }
+  if (document.readyState === 'complete') warm(); else window.addEventListener('load', warm, { once: true })
   const tick = () => {
-    if (gwShown) return
-    const t = performance.now() - start
-    if (t >= minWait && !busy() && (gwPreview || pastHero() || t >= 20000)) { gwOpen(); return }
-    setTimeout(tick, 500)
+    if (gwShown || (!gwPreview && gwJoined)) return
+    if (!document.hidden) seen += STEP
+    if (seen >= minWait && !busy() && (gwPreview || pastHero() || seen >= 20000)) { gwOpen(); return }
+    setTimeout(tick, STEP)
   }
-  setTimeout(tick, minWait)
+  setTimeout(tick, STEP)
 }
 
 /* ---------- club signup ---------- */
@@ -317,7 +334,7 @@ club?.addEventListener('submit', (e) => {
   const input = club.querySelector('input'); const msg = club.querySelector('.club__msg')
   if (!input.value || !input.checkValidity()) { msg.textContent = 'Enter a valid email address.'; input.focus(); return }
   msg.textContent = 'You are on the list. We will write before opening night.'; input.value = ''
-  gwStore.set({ state: 'joined', at: Date.now() })
+  gwJoin()
 })
 
 window.addEventListener('load', () => ScrollTrigger.refresh())
