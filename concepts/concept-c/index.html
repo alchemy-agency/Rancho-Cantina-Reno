@@ -301,6 +301,32 @@
     </div>
   </div>
 
+  <!-- GIVEAWAY: shown once to new visitors (add ?giveaway to the URL to preview it again) -->
+  <div class="modal modal--gw" id="giveaway" hidden role="dialog" aria-modal="true" aria-labelledby="gwTitle" aria-describedby="gwLead">
+    <div class="modal__backdrop" data-gw-close></div>
+    <div class="gw" tabindex="-1">
+      <button class="modal__close gw__close" type="button" aria-label="Close" data-gw-close>&times;</button>
+      <figure class="gw__photo" aria-hidden="true">
+        <img src="/img/food-tacos-top-720.webp" srcset="/img/food-tacos-top-720.webp 720w, /img/food-tacos-top-1200.webp 1200w" sizes="(min-width: 760px) 380px, 100vw" width="1200" height="800" alt="" loading="lazy" decoding="async" />
+      </figure>
+      <div class="gw__body">
+        <p class="gw__eyebrow"><span class="wm-flourish wm-flourish--gw" aria-hidden="true"></span>Join Club Rancho</p>
+        <h2 id="gwTitle">Win $500 in Rancho tacos.</h2>
+        <p class="gw__lead" id="gwLead">Be in the know from the beginning. Get opening updates, Rancho news, specials, Happy Hour, Taco Tuesdays and more.</p>
+        <p class="gw__lead">Join now for a chance to win $500 in Rancho tacos at our opening celebration.</p>
+        <form class="gw__form" novalidate>
+          <label class="gw__label" for="gwEmail">Email address</label>
+          <div class="gw__row">
+            <input id="gwEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required />
+            <button class="btn btn--ember" type="submit">Join Now</button>
+          </div>
+          <p class="gw__msg" aria-live="polite"></p>
+        </form>
+        <button class="gw__skip" type="button" data-gw-close>No thanks</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

@@ -242,6 +242,74 @@ form?.addEventListener('submit', (e) => {
   done.textContent = `Placeholder handoff: ${data.get('party')}, ${data.get('date')} at ${data.get('time')}. The live site will open OpenTable with these details.`
 })
 
+/* ---------- giveaway lightbox: once per new visitor ---------- */
+// Remembered per browser: 'joined' never shows again, a dismissal rests for 30 days. Add ?giveaway to the URL to preview it.
+const GW_KEY = 'rc-club-giveaway'
+const GW_REST = 30 * 24 * 60 * 60 * 1000
+const gwStore = {
+  get() { try { return JSON.parse(localStorage.getItem(GW_KEY) || 'null') } catch { return null } },
+  set(v) { try { localStorage.setItem(GW_KEY, JSON.stringify(v)) } catch { /* storage blocked: the page still works */ } },
+}
+const gw = q('#giveaway')
+const gwPanel = q('.gw', gw)
+const gwForm = q('.gw__form', gw)
+let gwFocus = null
+let gwShown = false
+const gwOpen = () => {
+  if (gwShown || !gw) return
+  gwShown = true
+  gwFocus = document.activeElement
+  gw.hidden = false
+  inertTargets().forEach((el) => { el.inert = true })
+  if (lenis) lenis.stop()
+  document.documentElement.style.overflow = 'hidden'
+  if (!reduce) {
+    gsap.fromTo(q('.modal__backdrop', gw), { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' })
+    gsap.fromTo(gwPanel, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' })
+  }
+  // focus the dialog itself so phones do not jump straight into the keyboard
+  gwPanel.focus({ preventScroll: true })
+}
+const gwClose = () => {
+  if (!gw || gw.hidden) return
+  gw.hidden = true
+  inertTargets().forEach((el) => { el.inert = false })
+  if (lenis) lenis.start()
+  document.documentElement.style.overflow = ''
+  if (gwStore.get()?.state !== 'joined') gwStore.set({ state: 'dismissed', at: Date.now() })
+  gwFocus?.focus?.({ preventScroll: true })
+}
+qa('[data-gw-close]', gw || document).forEach((el) => el.addEventListener('click', gwClose))
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && gw && !gw.hidden) gwClose() })
+gwForm?.addEventListener('submit', (e) => {
+  e.preventDefault()
+  const input = q('input', gwForm); const msg = q('.gw__msg', gwForm)
+  if (!input.value || !input.checkValidity()) { msg.textContent = 'Enter a valid email address.'; input.focus(); return }
+  gwStore.set({ state: 'joined', at: Date.now() })
+  gwPanel.classList.add('is-done')
+  msg.textContent = 'You are on the list. We will write before opening night.'
+  input.value = ''
+  gwPanel.focus({ preventScroll: true })
+})
+
+// Show it once the visitor is settled in: past the hero film, or 20 seconds on the page, never in the first 6.
+const gwPreview = new URLSearchParams(location.search).has('giveaway')
+const gwSeen = gwStore.get()
+const gwEligible = gw && (gwPreview || !gwSeen || (gwSeen.state === 'dismissed' && Date.now() - (gwSeen.at || 0) > GW_REST))
+if (gwEligible) {
+  const start = performance.now()
+  const minWait = gwPreview ? 1200 : 6000
+  const busy = () => !modal.hidden || !mnav.hidden
+  const pastHero = () => { const hero = q('.hero'); return !hero || hero.getBoundingClientRect().bottom < window.innerHeight * 0.5 }
+  const tick = () => {
+    if (gwShown) return
+    const t = performance.now() - start
+    if (t >= minWait && !busy() && (gwPreview || pastHero() || t >= 20000)) { gwOpen(); return }
+    setTimeout(tick, 500)
+  }
+  setTimeout(tick, minWait)
+}
+
 /* ---------- club signup ---------- */
 const club = q('.club')
 club?.addEventListener('submit', (e) => {
@@ -249,6 +317,7 @@ club?.addEventListener('submit', (e) => {
   const input = club.querySelector('input'); const msg = club.querySelector('.club__msg')
   if (!input.value || !input.checkValidity()) { msg.textContent = 'Enter a valid email address.'; input.focus(); return }
   msg.textContent = 'You are on the list. We will write before opening night.'; input.value = ''
+  gwStore.set({ state: 'joined', at: Date.now() })
 })
 
 window.addEventListener('load', () => ScrollTrigger.refresh())
