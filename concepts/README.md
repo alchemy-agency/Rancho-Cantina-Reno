@@ -1,5 +1,27 @@
 # Rancho Cantina Reno: website concepts
 
+## Concept C: final draft
+
+`concepts/concept-c` is the direction the client chose: **Concept B on a white page, with Concept A's best frames brought over**. It deploys to the Vercel project `rancho-reno-concept-c`.
+
+| Section | Source | Client notes applied |
+|---|---|---|
+| Header | B | B's labels kept (Menu, Dishes, Cantina / Heritage, Visit, Reserve a Table). Transparent over the film, white band once you scroll; the small wordmark waits until the large one has left. |
+| Hero | A | Full-bleed brand film, the large RANCHO CANTINA / RENO wordmark, "Wood-fired Mex-Western cooking on the banks of the Truckee River. Opening this winter." |
+| Statement | A | Copy left, roping cowboy right, on white. "almond wood, mesquite, and iron". |
+| Building | B | "...steps from the water. Riverfront patio, a full bar, and an open-fire parrilla at the heart of the kitchen." |
+| From the fire to the table | B | Each dish name now hangs under its own arch and moves with it. Names corrected to what is on each plate (Carne Asada, Whole Fish, Taco Trio, BBQ Oysters, Mexican Chicken Wings, Vaquero Platter). The scroll ends square on the last plate. |
+| Menu | B | "Menu highlights"; the Executive Chef line is removed. |
+| Cantina | B | "Tequila, mezcal, and a river view." |
+| Rancho, noun + Heritage | B | Unchanged copy apart from "almond wood"; the definition now introduces the Heritage trail. The roping cowboy leads the statement, so the buckaroo stop wears the hat and "today" is a Truckee trout. |
+| Family | B | "Rancho Cantina is a family restaurant first, built on ranching roots and family recipes." New photo: the Rancho Cantina menu, chips and guacamole, hearth behind (`family-rancho-*.webp`, cropped from the client's notes; swap for the original file). |
+| Visit | A | A's layout and copy; "Riverfront patio. Full bar. Free street parking on Jones and connecting streets." |
+| Footer | B | New Club Rancho copy; Lafayette and Danville link removed; placeholder credit line removed. |
+
+The two exploratory concepts below are kept for reference.
+
+---
+
 Two single-page concept sites for the new Reno location (700 Riverside Drive, Powning District, on the Truckee River). Both are static Vite builds with GSAP ScrollTrigger, Lenis smooth scroll, and a lazy-loaded Three.js scene, deployed to Vercel as separate projects.
 
 | | Concept A: Ember | Concept B: High Desert |
@@ -44,7 +66,7 @@ The toolbar only renders for signed-in team members on preview deployments, so c
 ## Run locally
 
 ```
-cd concepts/concept-a   # or concept-b
+cd concepts/concept-c   # or concept-a, concept-b
 npm install
 npm run dev
 ```

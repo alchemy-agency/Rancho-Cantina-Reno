@@ -1,0 +1,9 @@
+@font-face { font-family: "Orpheus"; src: url("/fonts/OrpheusPro.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Orpheus"; src: url("/fonts/OrpheusPro-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Orpheus"; src: url("/fonts/OrpheusPro-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Orpheus"; src: url("/fonts/OrpheusPro-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Garamond Pro"; src: url("/fonts/AGaramondPro-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Garamond Pro"; src: url("/fonts/AGaramondPro-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Garamond Pro"; src: url("/fonts/AGaramondPro-Semibold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Garamond Pro"; src: url("/fonts/AGaramondPro-SemiboldItalic.woff2") format("woff2"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: "Garamond Pro"; src: url("/fonts/AGaramondPro-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }

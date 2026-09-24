@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rancho Cantina Reno | Wood-Fired Mex-Western on the Truckee River</title>
+  <meta name="description" content="Rancho Cantina Reno. A wood-fired Mex-Western table on the banks of the Truckee River in Reno's Powning District. Opening this winter. Reserve a table." />
+  <meta property="og:title" content="Rancho Cantina Reno" />
+  <meta property="og:description" content="Wood-fired Mex-Western cooking on the banks of the Truckee River. Opening this winter." />
+  <meta property="og:image" content="/img/film-poster-a-1200.webp" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="font" href="/fonts/OrpheusPro.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="font" href="/fonts/OrpheusPro-Italic.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="font" href="/fonts/AGaramondPro-Regular.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="image" href="/img/film-poster-a-1920.webp" imagesrcset="/img/film-poster-a-720.webp 720w, /img/film-poster-a-1200.webp 1200w, /img/film-poster-a-1920.webp 1920w" imagesizes="100vw" />
+  <link rel="stylesheet" href="/src/fonts.css" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body data-concept="final">
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hdr" id="hdr">
+    <nav class="hdr__nav hdr__nav--l" aria-label="Primary left">
+      <a href="#menu">Menu</a>
+      <a href="#table">Dishes</a>
+      <a href="#cantina">Cantina</a>
+    </nav>
+    <a class="hdr__brand" href="#top" aria-label="Rancho Cantina Reno, home">
+      <span class="wm wm--hdr" role="img" aria-label="Rancho Cantina Reno"></span>
+      <span class="wm-flourish wm-flourish--hdr" aria-hidden="true"></span>
+    </a>
+    <nav class="hdr__nav hdr__nav--r" aria-label="Primary right">
+      <a href="#trail">Heritage</a>
+      <a href="#visit">Visit</a>
+      <button class="btn btn--ember js-reserve" type="button" data-magnetic>Reserve a Table</button>
+    </nav>
+    <button class="btn btn--ember hdr__reserve-m js-reserve" type="button">Reserve a Table</button>
+    <button class="hdr__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span></button>
+  </header>
+
+  <div class="mnav" id="mnav" hidden>
+    <nav aria-label="Mobile">
+      <a href="#menu">Menu</a>
+      <a href="#table">Dishes</a>
+      <a href="#cantina">Cantina</a>
+      <a href="#trail">Heritage</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <button class="btn btn--ember btn--lg mnav__reserve js-reserve" type="button">Reserve a Table</button>
+    <p class="mnav__meta">700 Riverside Drive, Reno, Nevada<br />On the Truckee River. Opening this winter.</p>
+  </div>
+
+  <main id="main">
+
+    <!-- HERO: full-bleed brand film, large wordmark centered -->
+    <section class="hero" id="top">
+      <div class="hero__media" aria-hidden="true">
+        <picture class="hero__poster"><img src="/img/film-poster-a-1920.webp" srcset="/img/film-poster-a-720.webp 720w, /img/film-poster-a-1200.webp 1200w, /img/film-poster-a-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async" /></picture>
+        <video class="hero__video" id="heroVideo" muted loop playsinline preload="metadata" poster="/img/film-poster-a-1920.webp" data-src-hd="/video/brandfilm-1080.mp4" data-src-sd="/video/brandfilm-720.mp4" data-src-webm="/video/brandfilm-720.webm"></video>
+        <div class="hero__scrim"></div>
+      </div>
+      <div class="hero__content">
+        <h1 class="hero__wm"><span class="wm wm--hero" role="img" aria-label="Rancho Cantina Reno"></span><span class="wm-flourish wm-flourish--hero" aria-hidden="true"></span></h1>
+        <p class="hero__sub">Wood-fired Mex-Western cooking on the banks of the Truckee River. Opening this winter.</p>
+        <div class="hero__actions">
+          <button class="btn btn--ember btn--lg js-reserve" type="button" data-magnetic>Reserve a Table</button>
+          <a class="btn btn--ghost btn--lg" href="#menu">See the Menu</a>
+        </div>
+      </div>
+      <button class="hero__sound" id="heroSound" type="button" aria-pressed="false" aria-label="Turn sound on">
+        <span class="hero__sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Sound
+      </button>
+    </section>
+
+    <!-- STATEMENT: copy left, roping cowboy right -->
+    <section class="statement" id="statement">
+      <div class="statement__ink" aria-hidden="true"><div class="ink ink--bronco" data-ink-reveal></div></div>
+      <div class="statement__copy">
+        <p class="statement__line"><span class="w">Wood-fired cooking.</span><span class="w">Rooted in tradition.</span><span class="w"><em>Timeless West.</em></span></p>
+        <p class="statement__body">An open-fire parrilla drives the menu: almond wood, mesquite, and iron. Ranch recipes carried into Nevada's high desert and served with a full bar, a river out front, and a neighborhood cantina spirit.</p>
+      </div>
+    </section>
+
+    <!-- THE BUILDING: real exterior + location copy -->
+    <section class="plate" id="plate">
+      <figure class="plate__fig">
+        <div class="plate__img" data-parallax>
+          <img src="/img/reno-exterior-1200.webp" srcset="/img/reno-exterior-720.webp 720w, /img/reno-exterior-1200.webp 1200w, /img/reno-exterior-1536.webp 1536w" width="1536" height="1024" sizes="(min-width: 900px) 58vw, 100vw" alt="Rancho Cantina Reno at 700 Riverside Drive, brick and timber with the covered patio lit at dusk" loading="lazy" decoding="async" />
+        </div>
+        <figcaption>700 Riverside Drive, on the Truckee.</figcaption>
+      </figure>
+      <div class="plate__copy">
+        <span class="wm-flourish wm-flourish--rule" aria-hidden="true"></span>
+        <h2>Brick, timber,<br />and the Truckee out front.</h2>
+        <p>A neighborhood cantina in the historic Powning District, steps from the water. Riverfront patio, a full bar, and an open-fire parrilla at the heart of the kitchen.</p>
+        <a class="link-rule" href="#visit">Hours and directions</a>
+      </div>
+    </section>
+
+    <!-- THE TABLE: 3D scroll-through of arch-cut dish photographs -->
+    <section class="table" id="table" aria-label="The Table">
+      <div class="table__pin" data-table>
+        <canvas class="table__canvas" id="tableCanvas" aria-hidden="true"></canvas>
+        <div class="table__head">
+          <h2>From the fire<br />to the table.</h2>
+          <p>Six plates off the grate.</p>
+        </div>
+        <div class="table__labels" data-table-labels></div>
+        <ul class="table__fallback">
+          <li><img src="/img/food-plate-edit-720.webp" alt="" loading="lazy" /><span>Carne Asada</span></li>
+          <li><img src="/img/food-whole-fish-720.webp" alt="" loading="lazy" /><span>Whole Fish</span></li>
+          <li><img src="/img/food-tacos-45-720.webp" alt="" loading="lazy" /><span>Taco Trio</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MENU CARD -->
+    <section class="menu" id="menu">
+      <div class="menu__photo" aria-hidden="true">
+        <img src="/img/food-spread-overhead-1200.webp" srcset="/img/food-spread-overhead-720.webp 720w, /img/food-spread-overhead-1200.webp 1200w" sizes="(min-width: 900px) 38vw, 100vw" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="menu__card">
+        <header class="menu__head">
+          <h2>Menu highlights</h2>
+        </header>
+        <div class="menu__cols">
+          <section class="mgroup mgroup--tall">
+            <h3><span class="wm-flourish wm-flourish--tiny" aria-hidden="true"></span>Parrilla</h3>
+            <dl>
+              <div><dt>Prime Cowboy Cut Ribeye</dt><dd>32 oz. bone-in rib chop for two, Vaquero spice rub, marbled potatoes, grilled asparagus, chimichurri</dd></div>
+              <div><dt>Double Cut Pork Chop</dt><dd>14 oz. chop over almond wood, ranch rice, sauteed vegetables, tatemada sauce</dd></div>
+              <div><dt>Vaquero Platter</dt><dd>Carne asada, chicken, and shrimp, fennel slaw, pink beans, corn or flour tortillas</dd></div>
+              <div><dt>Brick Chicken</dt><dd>Vaquero spices, herb chimichurri, rice, pink beans, fennel slaw</dd></div>
+              <div><dt>Carne Asada</dt><dd>Steak, fresh herb chimichurri, fennel slaw, rice, pink beans, tortillas</dd></div>
+            </dl>
+          </section>
+          <section class="mgroup">
+            <h3><span class="wm-flourish wm-flourish--tiny" aria-hidden="true"></span>Del Mar</h3>
+            <dl>
+              <div><dt>Whole Fish</dt><dd>One pound bone-in branzino, rice, pink beans, tortillas</dd></div>
+              <div><dt>BBQ Oysters</dt><dd>Local oysters, mezcal, mozzarella, tatemada salsa</dd></div>
+              <div><dt>Housemade Ceviche</dt><dd>Serrano, cilantro, pickled red onion, avocado</dd></div>
+            </dl>
+          </section>
+          <section class="mgroup">
+            <h3><span class="wm-flourish wm-flourish--tiny" aria-hidden="true"></span>Cantina</h3>
+            <dl>
+              <div><dt>Taco Trio</dt><dd>Chicken tinga, carnitas, or carne asada, onions, salsa rojo</dd></div>
+              <div><dt>Mexican Chicken Wings</dt><dd>Six jumbo bone-in wings, cotija, chipotle crema</dd></div>
+              <div><dt>Bone Marrow Brulee</dt><dd>BBQ shrimp, onions, cilantro, sea salt</dd></div>
+            </dl>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANTINA: sage block with a 2+1 grid -->
+    <section class="cantina" id="cantina">
+      <div class="cantina__intro">
+        <h2>Margarita time<br />is most of the time.</h2>
+        <p>Happy hour, Taco Tuesdays, Sunday brunch. Tequila, mezcal, and a river view.</p>
+      </div>
+      <div class="cantina__grid">
+        <figure class="tile tile--a" data-tilt>
+          <img src="/img/drink-rancho-margarita-1200.webp" srcset="/img/drink-rancho-margarita-720.webp 720w, /img/drink-rancho-margarita-1200.webp 1200w" sizes="(min-width: 900px) 46vw, 100vw" alt="The Rancho margarita, salted rim, lime" loading="lazy" decoding="async" />
+          <figcaption>Rancho Margarita <small>tequila blanco, lime, agave</small></figcaption>
+        </figure>
+        <figure class="tile tile--b" data-tilt>
+          <img src="/img/drink-cocktail-orange-720.webp" alt="Mango Brasa with a dried orange wheel" loading="lazy" decoding="async" />
+          <figcaption>Mango Brasa <small>mezcal, mango, pineapple, Tajin</small></figcaption>
+        </figure>
+        <figure class="tile tile--c" data-tilt>
+          <img src="/img/interior-bar-bottles-2-1200.webp" srcset="/img/interior-bar-bottles-2-720.webp 720w, /img/interior-bar-bottles-2-1200.webp 1200w" sizes="(min-width: 900px) 30vw, 100vw" alt="Tequila and mezcal along the back bar" loading="lazy" decoding="async" />
+          <figcaption>The back bar <small>agave, oak, smoke</small></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- DEFINITION line: introduces the Heritage trail -->
+    <section class="define" id="define">
+      <p class="define__line">
+        <span class="define__word">Rancho</span>
+        <span class="define__pos">noun</span>
+        <span class="define__meaning">a place where people gather. Where work is respected, meals are shared, and strangers become friends. Where the cooking happens over almond wood and mesquite, and the table sits on the river.</span>
+      </p>
+    </section>
+
+    <!-- HERITAGE TRAIL: pinned horizontal narrative with ink drawings (the roping cowboy leads the statement, so the buckaroo wears the hat and today is a Truckee trout) -->
+    <section class="trail" id="trail">
+      <div class="trail__pin" data-trail>
+        <div class="trail__track" data-trail-track>
+          <article class="stop">
+            <div class="stop__ink ink ink--vaquero" data-ink></div>
+            <h2>The vaquero</h2>
+            <p>Spanish cattle, open range, and the riders who worked it. The first ranch cooking in the West was done over coals, on iron, outdoors.</p>
+          </article>
+          <article class="stop">
+            <div class="stop__ink ink ink--wagon" data-ink></div>
+            <h2>The ranch table</h2>
+            <p>Family recipes seasoned the Rancho way and kept for generations. Mex-Western cooking built around wood fire, bold flavors, great ingredients and the spirit of the west.</p>
+          </article>
+          <article class="stop">
+            <div class="stop__ink ink ink--hat" data-ink></div>
+            <h2>The buckaroo</h2>
+            <p>Nevada ranch country, 1860s on. Great Basin cattle, buckaroo camps in the sagebrush, and a table built on beef, beans, and coals.</p>
+          </article>
+          <article class="stop stop--last">
+            <div class="stop__ink ink ink--fish" data-ink></div>
+            <h2>The rancho, today</h2>
+            <p>Reno, on the Truckee. Same fire, same welcome. Rancho by tradition. Reno by nature. Always by heart.</p>
+            <button class="btn btn--ember js-reserve" type="button">Reserve a Table</button>
+          </article>
+        </div>
+        <div class="trail__rule" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- FAMILY -->
+    <section class="family" id="family">
+      <div class="family__copy">
+        <h2>Family owned.<br />Family run.</h2>
+        <p>Rancho Cantina is a family restaurant first, built on ranching roots and family recipes.</p>
+      </div>
+      <figure class="family__photo">
+        <img src="/img/family-rancho-1090.webp" srcset="/img/family-rancho-720.webp 720w, /img/family-rancho-1090.webp 1090w" width="1090" height="722" sizes="(min-width: 900px) 52vw, 100vw" alt="A Rancho Cantina menu on the table with chips and guacamole, the wood-fired hearth and dining room behind" loading="lazy" decoding="async" />
+      </figure>
+    </section>
+
+    <!-- VISIT -->
+    <section class="visit" id="visit">
+      <div class="visit__bg" aria-hidden="true">
+        <img src="/img/reno-exterior-1200.webp" srcset="/img/reno-exterior-720.webp 720w, /img/reno-exterior-1200.webp 1200w, /img/reno-exterior-1536.webp 1536w" width="1536" height="1024" sizes="70vw" alt="" loading="lazy" decoding="async" />
+      </div>
+      <div class="visit__grid">
+        <div class="visit__addr">
+          <h2>On the Truckee River<br />in Reno's Powning District.</h2>
+          <address>700 Riverside Drive<br />Reno, Nevada 89503</address>
+          <p class="visit__note">Riverfront patio. Full bar. Free street parking on Jones and connecting streets.</p>
+          <div class="visit__actions">
+            <button class="btn btn--ember btn--lg js-reserve" type="button" data-magnetic>Reserve a Table</button>
+            <a class="btn btn--line btn--lg" href="https://maps.google.com/?q=700+Riverside+Drive+Reno+NV+89503" target="_blank" rel="noopener">Directions</a>
+          </div>
+        </div>
+        <dl class="hours">
+          <div><dt>Monday</dt><dd>Closed</dd></div>
+          <div><dt>Tuesday to Thursday</dt><dd>11 am to 8:30 pm</dd></div>
+          <div><dt>Friday and Saturday</dt><dd>11 am to 9:30 pm</dd></div>
+          <div><dt>Sunday</dt><dd>10 am to 8:30 pm</dd></div>
+          <div class="hours__extra"><dt>Sunday brunch</dt><dd>10 am to 2 pm</dd></div>
+        </dl>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="ftr">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <span class="wm wm--ftr" role="img" aria-label="Rancho Cantina Reno"></span>
+        <span class="wm-flourish wm-flourish--ftr" aria-hidden="true"></span>
+      </div>
+      <form class="club" action="#" method="post" novalidate>
+        <label for="clubEmail">Join Club Rancho</label>
+        <p class="club__hint">Be in the know from the beginning. Get opening updates, Rancho news, specials, Happy Hour, Taco Tuesdays and more.<br />Join now for a chance to win $500 in Rancho tacos at our opening celebration.</p>
+        <div class="club__row">
+          <input id="clubEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required />
+          <button class="btn btn--ember" type="submit">Sign Up</button>
+        </div>
+        <p class="club__msg" aria-live="polite"></p>
+      </form>
+      <div class="ftr__meta">
+        <p>700 Riverside Drive, Reno, NV 89503</p>
+        <p><a href="mailto:kc@ranchocantinareno.com">kc@ranchocantinareno.com</a></p>
+        <p class="ftr__links"><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></p>
+      </div>
+    </div>
+    <p class="ftr__legal">&copy; 2026 Rancho Cantina Reno.</p>
+  </footer>
+
+
+  <div class="modal" id="reserveModal" hidden role="dialog" aria-modal="true" aria-labelledby="reserveTitle">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel">
+      <button class="modal__close" type="button" aria-label="Close" data-close>&times;</button>
+      <span class="wm-flourish wm-flourish--modal" aria-hidden="true"></span>
+      <h2 id="reserveTitle">Reserve a Table</h2>
+      <p class="modal__lead">Reservations open with the restaurant this winter. Pick your party and date and we will hand you to OpenTable.</p>
+      <form class="rsv" data-reserve-form>
+        <div class="rsv__row">
+          <div class="field"><label for="rsvParty">Party</label>
+            <select id="rsvParty" name="party"><option>2 guests</option><option>3 guests</option><option selected>4 guests</option><option>5 guests</option><option>6 guests</option><option>7 or more</option></select></div>
+          <div class="field"><label for="rsvDate">Date</label><input id="rsvDate" name="date" type="date" required /></div>
+          <div class="field"><label for="rsvTime">Time</label>
+            <select id="rsvTime" name="time"><option>5:00 pm</option><option>5:30 pm</option><option>6:00 pm</option><option selected>6:30 pm</option><option>7:00 pm</option><option>7:30 pm</option><option>8:00 pm</option><option>8:30 pm</option></select></div>
+        </div>
+        <button class="btn btn--ember btn--lg btn--block" type="submit">Continue to OpenTable</button>
+        <p class="rsv__fine">Parties of 8 or more, private events, and the riverfront patio: <a href="mailto:kc@ranchocantinareno.com">kc@ranchocantinareno.com</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
