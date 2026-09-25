@@ -255,8 +255,9 @@
       </div>
       <!-- PARKING MAP: drawn from OpenStreetMap; free street parking and the lot as marked on the client's map -->
       <div class="visit__map pmap" id="parking">
-        <div class="pmap__scroll" tabindex="0" aria-label="Parking map. On small screens, scroll sideways to see all of it.">
-          <svg class="pmap__svg" viewBox="0 0 1120 760" role="img" aria-labelledby="pmapTitle pmapDesc" focusable="false">
+        <div class="pmap__stage">
+          <div class="pmap__scroll" tabindex="0" aria-label="Parking map. On small screens, scroll sideways to see all of it.">
+            <svg class="pmap__svg" viewBox="0 0 1120 760" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="pmapTitle pmapDesc" focusable="false">
 <title id="pmapTitle">Parking map</title>
 <desc id="pmapDesc">Rancho Cantina is on Riverside Drive at Jones Street, between Hub Coffee and Lundsford Park, across the road from the Truckee River. Free street parking, marked in yellow, runs along both sides of Jones, Vine, Winter and Washington Streets between West 1st Street and Riverside Drive. A lot with 90+ spots sits at McKinley Park, on Jones Street between Keystone Avenue and Vine Street.</desc>
 <defs>
@@ -288,6 +289,8 @@
 </g>
 </a>
 </svg>
+          </div>
+          <div class="pmap__live" role="region" aria-label="Interactive parking map. Drag to move it and use the zoom buttons." aria-hidden="true"></div>
         </div>
         <p class="pmap__hint">Swipe the map to see all of it, including the lot at McKinley Park.</p>
         <div class="pmap__bar">

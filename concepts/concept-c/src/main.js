@@ -367,5 +367,27 @@ club?.addEventListener('submit', (e) => {
   gwJoin()
 })
 
+/* ---------- parking map: a live, movable map when WebGL and the map tiles are available ---------- */
+// The drawn map stays underneath as the fallback (no WebGL, Data Saver, or tiles that fail to load).
+const pmapBox = q('.pmap')
+const pmapLive = q('.pmap__live')
+if (pmapBox && pmapLive && supportsWebGL && !saveData) {
+  const goLive = () => import('./pmap-live.js')
+    .then(({ createLiveMap }) => createLiveMap(pmapLive))
+    .then((map) => {
+      pmapBox.classList.add('is-live')
+      pmapLive.setAttribute('aria-hidden', 'false')
+      q('.pmap__scroll', pmapBox)?.setAttribute('tabindex', '-1')
+      const hint = q('.pmap__hint', pmapBox)
+      if (hint) hint.textContent = finePointer ? 'Drag to move the map. Zoom with + and \u2212, or hold Ctrl (\u2318 on a Mac) and scroll.' : 'Use two fingers to move and zoom the map.'
+      map.resize()
+    })
+    .catch((err) => console.warn('Live map unavailable; showing the drawn map.', err))
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { io.disconnect(); goLive() }
+  }, { rootMargin: '700px 0px' })
+  io.observe(pmapBox)
+}
+
 window.addEventListener('load', () => ScrollTrigger.refresh())
 document.fonts?.ready.then(() => ScrollTrigger.refresh())

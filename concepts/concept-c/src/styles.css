@@ -250,9 +250,10 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
 .hours__extra dt { font-style: italic; }
 /* Parking map: drawn from OpenStreetMap in the site's palette, framed like the family photo */
 .visit__map { position: relative; margin: 0 auto; border: 1px solid var(--line-strong); padding: 12px; background: var(--paper-2); scroll-margin-top: calc(var(--hdr-h) + 16px); }
-.pmap__scroll { position: relative; overflow: hidden; background: #f3f0ea; }
+.pmap__stage { position: relative; height: clamp(440px, 68vh, 680px); background: #f3f0ea; }
+.pmap__scroll { position: absolute; inset: 0; overflow: hidden; }
 .pmap__scroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; box-shadow: none; }
-.pmap__svg { display: block; width: 100%; height: auto; }
+.pmap__svg { display: block; width: 100%; height: 100%; }
 .pm-land { fill: #f3f0ea; }
 .pm-park { fill: #dde4d4; }
 .pm-water { fill: #c6d6d9; stroke: #a3b9bd; stroke-width: 1.5; }
@@ -288,6 +289,28 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
 .pm-pin:focus-visible .pm-pin__card rect { stroke: var(--ember); stroke-width: 3; }
 /* key and directions */
 .pmap__hint { display: none; }
+/* live, movable map: fades in over the drawn one once real tiles have loaded */
+/* ".pmap__stage >" outranks MapLibre's own ".maplibregl-map { position: relative }", which loads later */
+.pmap__stage > .pmap__live { position: absolute; inset: 0; z-index: 1; opacity: 0; visibility: hidden; transition: opacity 0.8s var(--ease), visibility 0s linear 0.8s; }
+.pmap.is-live .pmap__stage > .pmap__live { opacity: 1; visibility: visible; transition: opacity 0.8s var(--ease); }
+.pmap.is-live .pmap__hint { display: block; margin-top: 10px; text-align: center; font: italic 400 0.95rem/1.35 var(--f-body); color: var(--ash); text-wrap: balance; }
+.pmap .maplibregl-canvas:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.pmap .maplibregl-ctrl-group { border-radius: 0; box-shadow: none; border: 1px solid var(--line-strong); }
+.pmap .maplibregl-ctrl-group button { width: 38px; height: 38px; }
+.pmap .maplibregl-ctrl-group button + button { border-top-color: var(--line); }
+.pmap .maplibregl-ctrl-attrib { font: italic 400 11px/1.4 var(--f-body); background: rgba(255, 255, 255, 0.86); }
+.pmap .maplibregl-cooperative-gesture-screen { font: italic 400 1.1rem/1.4 var(--f-body); background: rgba(31, 30, 27, 0.55); }
+.pm-live-home button span { display: block; width: 12px; height: 12px; margin: auto; border-radius: 50%; background: var(--ember); box-shadow: 0 0 0 4px rgba(186, 46, 40, 0.18); }
+.pm-live-pin { position: relative; display: block; width: 30px; height: 34px; cursor: pointer; }
+.pm-live-pin__drop { position: absolute; left: 2px; top: -6px; width: 26px; height: 26px; background: var(--ember); border: 2.5px solid #fff; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 2px 6px rgba(31, 30, 27, 0.25); transition: background-color 0.3s; }
+.pm-live-pin__drop::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #fff; }
+.pm-live-pin:hover .pm-live-pin__drop, .pm-live-pin:focus-visible .pm-live-pin__drop { background: var(--ember-2); }
+.pm-live-pin:focus { outline: none; }
+.pm-live-pin__card { position: absolute; left: 38px; top: -14px; display: flex; flex-direction: column; gap: 3px; padding: 8px 12px 9px; background: #fff; border: 1.2px solid var(--ink); white-space: nowrap; color: var(--ink); }
+.pm-live-pin:focus-visible .pm-live-pin__card { border-color: var(--ember); box-shadow: 0 0 0 2px var(--ember); }
+.pm-live-pin__card strong { font: 400 17px/1 var(--f-display); }
+.pm-live-pin__card em { font: italic 400 12.5px/1 var(--f-body); color: var(--ink-2); }
+.pm-live-lot { padding: 6px 9px; font: 500 10.5px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); background: #fff; border: 1px solid var(--line-strong); white-space: nowrap; pointer-events: none; }
 .pmap__credit { padding: 10px 4px 0; text-align: right; font: italic 400 0.82rem/1.3 var(--f-body); color: var(--ash); }
 .pmap__credit a { border-bottom: 1px solid var(--line); }
 .pmap__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; padding: 18px 4px 6px; }
@@ -390,9 +413,11 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
   .visit__bg { left: auto; right: calc(-30vw - var(--gutter)); width: 120vw; opacity: 0.08; }
   .visit__map { padding: 8px; }
   /* on phones the map keeps a readable scale and scrolls sideways; it opens centred on the restaurant */
+  .pmap__stage { height: 520px; }
   .pmap__scroll { overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
-  .pmap__svg { width: 860px; max-width: none; }
+  .pmap__svg { width: auto; height: 100%; aspect-ratio: 1120 / 760; max-width: none; }
   .pmap__hint { display: block; margin-top: 10px; text-align: center; font: italic 400 0.95rem/1.35 var(--f-body); color: var(--ash); text-wrap: balance; }
+  .pm-live-pin__card strong { font-size: 15px; }
   .pmap__credit { text-align: center; }
   .pmap__bar { flex-direction: column; align-items: stretch; padding: 14px 2px 4px; }
   .pmap__key { justify-content: center; font-size: 0.95rem; }
