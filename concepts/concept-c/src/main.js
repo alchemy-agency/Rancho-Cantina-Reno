@@ -87,9 +87,11 @@ if (!reduce) {
   gsap.from('.statement__body', { y: 24, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.statement__body', start: 'top 85%' } })
   const ink = q('[data-ink-reveal]')
   if (ink) {
+    // draw on as the cowboy comes up, and finish while all of it is on screen below the header
     gsap.set(ink, { clipPath: 'inset(0 100% 0 0)' })
-    gsap.to(ink, { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: '.statement', start: 'top 80%', end: 'center 45%', scrub: 0.6 } })
-    gsap.to(ink, { y: -60, ease: 'none', scrollTrigger: { trigger: '.statement', start: 'top bottom', end: 'bottom top', scrub: true } })
+    gsap.to(ink, { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: ink.parentElement, start: 'top 85%', end: 'center 58%', scrub: 0.6 } })
+    // a gentle drift centred on zero, so it never lifts the drawing under the header
+    gsap.fromTo(ink, { y: 24 }, { y: -24, ease: 'none', scrollTrigger: { trigger: '.statement', start: 'top bottom', end: 'bottom top', scrub: true } })
   }
 }
 

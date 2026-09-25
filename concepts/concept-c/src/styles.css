@@ -130,7 +130,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* Statement: copy left, roping cowboy right */
 .statement { position: relative; padding: clamp(96px, 18vh, 200px) var(--gutter); min-height: 90vh; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid var(--line); }
-.statement__ink { position: absolute; right: 2vw; top: 50%; width: min(52vw, 720px); transform: translateY(-50%); pointer-events: none; color: var(--ink); }
+/* the cowboy is capped to the height below the header (viewBox aspect 1.0817) so it can always be seen whole */
+.statement__ink { position: absolute; right: 2vw; top: 50%; width: min(52vw, 720px, calc((100svh - var(--hdr-h) - 96px) * 1.0817)); transform: translateY(-50%); pointer-events: none; color: var(--ink); }
 .statement__copy { position: relative; z-index: 1; max-width: 640px; }
 .statement__line { font: 400 clamp(2.1rem, 4.4vw, 4.2rem)/1.04 var(--f-display); display: flex; flex-direction: column; gap: 0.05em; margin-bottom: 1.6rem; }
 .statement__line .w { display: block; }
@@ -329,7 +330,7 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
   .hero__content { padding-bottom: 96px; }
   .hero__sound { bottom: 28px; right: 16px; }
   .statement { min-height: 0; flex-direction: column; align-items: stretch; padding-top: 72px; }
-  .statement__ink { position: relative; right: auto; top: auto; transform: none; width: 84%; margin: 0 0 32px auto; }
+  .statement__ink { position: relative; right: auto; top: auto; transform: none; width: min(84%, calc((100svh - var(--hdr-h) - 48px) * 1.0817)); margin: 0 0 32px auto; }
   .visit__bg { left: auto; right: -30vw; width: 120vw; opacity: 0.08; }
   .define__line { font-size: 1.55rem; }
   .plate, .family, .menu, .cantina__grid, .visit__grid, .ftr__grid { grid-template-columns: 1fr; }
