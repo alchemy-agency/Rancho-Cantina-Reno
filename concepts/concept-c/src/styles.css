@@ -234,7 +234,7 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
 /* Visit */
 .visit { position: relative; padding: clamp(96px, 16vh, 200px) var(--gutter); overflow: hidden; border-top: 1px solid var(--line); }
 .visit__bg { position: absolute; left: -8vw; top: 62%; width: min(58vw, 880px); transform: translateY(-50%); opacity: 0.13; pointer-events: none; mix-blend-mode: multiply; }
-.visit__bg img { filter: grayscale(1) contrast(1.05); -webkit-mask-image: radial-gradient(70% 70% at 50% 50%, #000 35%, transparent 100%); mask-image: radial-gradient(70% 70% at 50% 50%, #000 35%, transparent 100%); }
+.visit__bg img { filter: grayscale(1) contrast(1.05); -webkit-mask-image: radial-gradient(closest-side at 50% 50%, #000 40%, transparent 100%); mask-image: radial-gradient(closest-side at 50% 50%, #000 40%, transparent 100%); }
 .visit__grid { position: relative; display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 6vw, 96px); align-items: end; }
 .visit__addr h2 { margin-bottom: 1.6rem; }
 .visit address { font: 400 clamp(1.4rem, 2vw, 1.9rem)/1.25 var(--f-display); font-style: normal; margin-bottom: 1rem; }

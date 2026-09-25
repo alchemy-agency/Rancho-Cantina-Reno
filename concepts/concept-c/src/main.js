@@ -24,9 +24,12 @@ const scrollTo = (target, offset = -64) => {
 
 /* ---------- header + mobile nav ---------- */
 const hdr = q('#hdr')
-ScrollTrigger.create({ start: 80, end: 'max', toggleClass: { targets: hdr, className: 'is-scrolled' } })
 const burger = q('.hdr__burger')
 const mnav = q('#mnav')
+// white band once the page moves, all the way to the very bottom (a toggleClass trigger drops it at the end)
+const syncHdr = () => hdr.classList.toggle('is-scrolled', window.scrollY > 80 || !mnav.hidden)
+window.addEventListener('scroll', syncHdr, { passive: true })
+syncHdr()
 const setMnav = (open) => {
   mnav.hidden = !open
   burger.setAttribute('aria-expanded', String(open))

@@ -132,7 +132,8 @@ export async function createTable(canvas, labelRoot) {
       p.userData.mat.opacity = f
       p.userData.shadowMat.opacity = 0.14 * f
       p.visible = f > 0.005
-      r.on = f > 0.45
+      // only a nearly opaque arch hides the label of the one behind it, so labels return as the front arch dissolves
+      r.on = f > 0.85
       if (!r.on) return
       r.x0 = r.y0 = Infinity; r.x1 = r.y1 = -Infinity
       for (const [lx, ly] of corners) {
