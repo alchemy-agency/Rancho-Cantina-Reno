@@ -232,8 +232,10 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
 .family__photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 
 /* Visit */
-.visit { position: relative; padding: clamp(96px, 16vh, 200px) var(--gutter); overflow: hidden; border-top: 1px solid var(--line); }
-.visit__bg { position: absolute; left: -8vw; top: 62%; width: min(58vw, 880px); transform: translateY(-50%); opacity: 0.13; pointer-events: none; mix-blend-mode: multiply; }
+.visit { position: relative; padding: 0 var(--gutter) clamp(96px, 16vh, 200px); overflow: hidden; border-top: 1px solid var(--line); }
+/* the address and hours block; the ghosted building sits behind this part only, never over the map */
+.visit__main { position: relative; padding: clamp(96px, 16vh, 200px) 0 clamp(48px, 7vh, 88px); }
+.visit__bg { position: absolute; left: calc(-8vw - var(--gutter)); top: 62%; width: min(58vw, 880px); transform: translateY(-50%); opacity: 0.13; pointer-events: none; mix-blend-mode: multiply; }
 .visit__bg img { filter: grayscale(1) contrast(1.05); -webkit-mask-image: radial-gradient(closest-side at 50% 50%, #000 40%, transparent 100%); mask-image: radial-gradient(closest-side at 50% 50%, #000 40%, transparent 100%); }
 .visit__grid { position: relative; display: grid; grid-template-columns: 7fr 5fr; gap: clamp(32px, 6vw, 96px); align-items: end; }
 .visit__addr h2 { margin-bottom: 1.6rem; }
@@ -246,6 +248,13 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
 .hours dt { color: var(--ash); }
 .hours dd { margin: 0; font-family: var(--f-display); font-size: 1.15rem; text-align: right; }
 .hours__extra dt { font-style: italic; }
+/* parking map, framed like the family photo; capped at its native width so it never goes soft */
+.visit__map { position: relative; margin: 0 auto; max-width: calc(1516px + 26px); border: 1px solid var(--line-strong); padding: 12px; background: var(--paper-2); }
+.visit__map-link { display: block; cursor: zoom-in; }
+.visit__map img { width: 100%; height: auto; }
+.visit__map figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; padding: 14px 2px 2px; font: italic 400 1.02rem/1.4 var(--f-body); color: var(--ash); }
+.visit__map figcaption a { color: var(--ink-2); border-bottom: 1px solid var(--line-strong); transition: color 0.3s, border-color 0.3s; }
+.visit__map figcaption a:hover { color: var(--ink); border-color: var(--ink); }
 
 /* Footer */
 .ftr { background: var(--paper-2); border-top: 1px solid var(--line); padding: clamp(56px, 9vh, 110px) var(--gutter) 36px; }
@@ -331,7 +340,9 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
   .hero__sound { bottom: 28px; right: 16px; }
   .statement { min-height: 0; flex-direction: column; align-items: stretch; padding-top: 72px; }
   .statement__ink { position: relative; right: auto; top: auto; transform: none; width: min(84%, calc((100svh - var(--hdr-h) - 48px) * 1.0817)); margin: 0 0 32px auto; }
-  .visit__bg { left: auto; right: -30vw; width: 120vw; opacity: 0.08; }
+  .visit__bg { left: auto; right: calc(-30vw - var(--gutter)); width: 120vw; opacity: 0.08; }
+  .visit__map { padding: 8px; }
+  .visit__map figcaption { justify-content: center; text-align: center; font-size: 0.98rem; }
   .define__line { font-size: 1.55rem; }
   .plate, .family, .menu, .cantina__grid, .visit__grid, .ftr__grid { grid-template-columns: 1fr; }
   .hero__actions .btn { min-width: 220px; }

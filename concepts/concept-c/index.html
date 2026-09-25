@@ -230,27 +230,36 @@
 
     <!-- VISIT -->
     <section class="visit" id="visit">
-      <div class="visit__bg" aria-hidden="true">
-        <img src="/img/reno-exterior-1200.webp" srcset="/img/reno-exterior-720.webp 720w, /img/reno-exterior-1200.webp 1200w, /img/reno-exterior-1536.webp 1536w" width="1536" height="1024" sizes="70vw" alt="" loading="lazy" decoding="async" />
-      </div>
-      <div class="visit__grid">
-        <div class="visit__addr">
-          <h2>On the Truckee River<br />in Reno's Powning District.</h2>
-          <address>700 Riverside Drive<br />Reno, Nevada 89503</address>
-          <p class="visit__note">Riverfront patio. Full bar. Free street parking on Jones and connecting streets.</p>
-          <div class="visit__actions">
-            <button class="btn btn--ember btn--lg js-reserve" type="button" data-magnetic>Reserve a Table</button>
-            <a class="btn btn--line btn--lg" href="https://maps.google.com/?q=700+Riverside+Drive+Reno+NV+89503" target="_blank" rel="noopener">Directions</a>
-          </div>
+      <div class="visit__main">
+        <div class="visit__bg" aria-hidden="true">
+          <img src="/img/reno-exterior-1200.webp" srcset="/img/reno-exterior-720.webp 720w, /img/reno-exterior-1200.webp 1200w, /img/reno-exterior-1536.webp 1536w" width="1536" height="1024" sizes="70vw" alt="" loading="lazy" decoding="async" />
         </div>
-        <dl class="hours">
-          <div><dt>Monday</dt><dd>Closed</dd></div>
-          <div><dt>Tuesday to Thursday</dt><dd>11 am to 8:30 pm</dd></div>
-          <div><dt>Friday and Saturday</dt><dd>11 am to 9:30 pm</dd></div>
-          <div><dt>Sunday</dt><dd>10 am to 8:30 pm</dd></div>
-          <div class="hours__extra"><dt>Sunday brunch</dt><dd>10 am to 2 pm</dd></div>
-        </dl>
+        <div class="visit__grid">
+          <div class="visit__addr">
+            <h2>On the Truckee River<br />in Reno's Powning District.</h2>
+            <address>700 Riverside Drive<br />Reno, Nevada 89503</address>
+            <p class="visit__note">Riverfront patio. Full bar. Free street parking on Jones and connecting streets.</p>
+            <div class="visit__actions">
+              <button class="btn btn--ember btn--lg js-reserve" type="button" data-magnetic>Reserve a Table</button>
+              <a class="btn btn--line btn--lg" href="https://maps.google.com/?q=700+Riverside+Drive+Reno+NV+89503" target="_blank" rel="noopener">Directions</a>
+            </div>
+          </div>
+          <dl class="hours">
+            <div><dt>Monday</dt><dd>Closed</dd></div>
+            <div><dt>Tuesday to Thursday</dt><dd>11 am to 8:30 pm</dd></div>
+            <div><dt>Friday and Saturday</dt><dd>11 am to 9:30 pm</dd></div>
+            <div><dt>Sunday</dt><dd>10 am to 8:30 pm</dd></div>
+            <div class="hours__extra"><dt>Sunday brunch</dt><dd>10 am to 2 pm</dd></div>
+          </dl>
+        </div>
       </div>
+      <!-- parking map from the client (free street parking in yellow); opens full size for zooming on phones -->
+      <figure class="visit__map">
+        <a class="visit__map-link" href="/img/parking-map-1516.webp" target="_blank" rel="noopener">
+          <img src="/img/parking-map-1200.webp" srcset="/img/parking-map-800.webp 800w, /img/parking-map-1200.webp 1200w, /img/parking-map-1516.webp 1516w" sizes="92vw" width="1516" height="1037" alt="Parking map. Rancho Cantina sits on Riverside Drive at Jones Street, beside Lundsford Park and the Truckee River. Free street parking, marked in yellow, runs along Jones, Vine, Winter and Washington Streets, and a lot with 90+ spots sits at Jones and Vine Streets near Keystone Avenue." loading="lazy" decoding="async" />
+        </a>
+        <figcaption><span>Free street parking is marked in yellow.</span><a href="/img/parking-map-1516.webp" target="_blank" rel="noopener">Open the full map</a></figcaption>
+      </figure>
     </section>
 
   </main>

@@ -204,7 +204,7 @@ mm.add('(max-width: 899px)', () => {
 
 /* ---------- batch reveals ---------- */
 if (!reduce) {
-  const targets = qa('.menu__head, .mgroup, .cantina__intro > *, .tile, .family__copy > *, .family__photo, .visit__addr > *, .hours, .ftr__brand, .club, .ftr__meta')
+  const targets = qa('.menu__head, .mgroup, .cantina__intro > *, .tile, .family__copy > *, .family__photo, .visit__addr > *, .hours, .visit__map, .ftr__brand, .club, .ftr__meta')
   gsap.set(targets, { y: 28, opacity: 0 })
   ScrollTrigger.batch(targets, { start: 'top 90%', once: true, onEnter: (batch) => gsap.to(batch, { y: 0, opacity: 1, duration: 1.1, stagger: 0.08, ease: 'power3.out', overwrite: true }) })
 }
