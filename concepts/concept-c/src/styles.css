@@ -57,9 +57,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .wm { aspect-ratio: 3086.7 / 602.1; -webkit-mask-image: url("/ink/wordmark-reno.svg"); mask-image: url("/ink/wordmark-reno.svg"); }
 .wm-flourish { aspect-ratio: 1566.4 / 439.5; color: var(--ember); -webkit-mask-image: url("/ink/flourish.svg"); mask-image: url("/ink/flourish.svg"); }
 .ink--bronco { aspect-ratio: 2801.9 / 2590.2; -webkit-mask-image: url("/ink/bronco.svg"); mask-image: url("/ink/bronco.svg"); }
-.ink--vaquero { aspect-ratio: 1432.8 / 1005.5; -webkit-mask-image: url("/ink/vaquero-walk.svg"); mask-image: url("/ink/vaquero-walk.svg"); }
-.ink--wagon { aspect-ratio: 1668.4 / 1267.3; -webkit-mask-image: url("/ink/wagon.svg"); mask-image: url("/ink/wagon.svg"); }
-.ink--hat { aspect-ratio: 530.4 / 347.6; -webkit-mask-image: url("/ink/hat.svg"); mask-image: url("/ink/hat.svg"); }
+.ink--vaquero { aspect-ratio: 1499.1 / 1116.5; -webkit-mask-image: url("/ink/vaquero-walk.svg"); mask-image: url("/ink/vaquero-walk.svg"); }
+.ink--wagon { aspect-ratio: 1668.4 / 1405.4; -webkit-mask-image: url("/ink/wagon.svg"); mask-image: url("/ink/wagon.svg"); }
+.ink--hat { aspect-ratio: 530.4 / 379.1; -webkit-mask-image: url("/ink/hat.svg"); mask-image: url("/ink/hat.svg"); }
 .glyph { display: inline-block; height: 0.9em; vertical-align: -0.12em; margin: 0 0.15em; color: var(--ink); }
 .glyph--hat { width: 1.35em; -webkit-mask-image: url("/ink/hat.svg"); mask-image: url("/ink/hat.svg"); }
 .glyph--fish { width: 2.5em; -webkit-mask-image: url("/ink/fish.svg"); mask-image: url("/ink/fish.svg"); }
@@ -343,7 +343,8 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
   .table__head { max-width: 70%; }
   .trail__pin { min-height: 0; padding: 80px 0 64px; display: block; }
   .trail__rule { display: none; }
-  .trail__track { overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gutter); gap: 32px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  /* scroll-padding keeps a snapped stop off the screen edge so its drawing never looks cut */
+  .trail__track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); padding: 0 var(--gutter); gap: 32px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .trail__track::-webkit-scrollbar { display: none; }
   .stop, .stop--last { width: 78vw; scroll-snap-align: start; }
   .stop__ink { height: 30vh; }
