@@ -15,7 +15,7 @@
 | Cantina | B | "Tequila, mezcal, and a river view." |
 | Rancho, noun + Heritage | B | Unchanged copy apart from "almond wood"; the definition now introduces the Heritage trail. The roping cowboy leads the statement, so the buckaroo stop wears the hat and "today" is a Truckee trout. |
 | Family | B | "Rancho Cantina is a family restaurant first, built on ranching roots and family recipes." New photo: the Rancho Cantina menu, chips and guacamole, hearth behind (`family-rancho-*.webp`, cropped from the client's notes; swap for the original file). |
-| Visit | A | A's layout and copy; "Riverfront patio. Full bar. Free street parking on Jones and connecting streets." |
+| Visit | A | A's layout and copy; "Riverfront patio. Full bar. Free street parking on Jones and connecting streets." Below it, a custom parking map drawn in the site's palette from OpenStreetMap data (free street parking and the 90+ spot lot as marked on the client's map), with directions via Google Maps, Apple Maps, Waze, Uber and Lyft. |
 | Footer | B | New Club Rancho copy; Lafayette and Danville link removed; placeholder credit line removed. |
 
 The two exploratory concepts below are kept for reference.

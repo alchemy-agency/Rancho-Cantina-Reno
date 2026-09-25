@@ -248,13 +248,60 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
 .hours dt { color: var(--ash); }
 .hours dd { margin: 0; font-family: var(--f-display); font-size: 1.15rem; text-align: right; }
 .hours__extra dt { font-style: italic; }
-/* parking map, framed like the family photo; capped at its native width so it never goes soft */
-.visit__map { position: relative; margin: 0 auto; max-width: calc(1516px + 26px); border: 1px solid var(--line-strong); padding: 12px; background: var(--paper-2); }
-.visit__map-link { display: block; cursor: zoom-in; }
-.visit__map img { width: 100%; height: auto; }
-.visit__map figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; padding: 14px 2px 2px; font: italic 400 1.02rem/1.4 var(--f-body); color: var(--ash); }
-.visit__map figcaption a { color: var(--ink-2); border-bottom: 1px solid var(--line-strong); transition: color 0.3s, border-color 0.3s; }
-.visit__map figcaption a:hover { color: var(--ink); border-color: var(--ink); }
+/* Parking map: drawn from OpenStreetMap in the site's palette, framed like the family photo */
+.visit__map { position: relative; margin: 0 auto; border: 1px solid var(--line-strong); padding: 12px; background: var(--paper-2); scroll-margin-top: calc(var(--hdr-h) + 16px); }
+.pmap__scroll { position: relative; overflow: hidden; background: #f3f0ea; }
+.pmap__scroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; box-shadow: none; }
+.pmap__svg { display: block; width: 100%; height: auto; }
+.pm-land { fill: #f3f0ea; }
+.pm-park { fill: #dde4d4; }
+.pm-water { fill: #c6d6d9; stroke: #a3b9bd; stroke-width: 1.5; }
+.pm-bldg { fill: #e5dfd4; }
+.pm-lot { fill: url(#pmHatch); stroke: #b3a893; stroke-width: 1.2; stroke-dasharray: 4 3; }
+.pm-lot-bg { fill: #ebe5da; }
+.pm-lot-hatch { fill: #d2c8b6; }
+.pm-case, .pm-road { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.pm-case { stroke: #d3cbbd; }
+.pm-case--minor { stroke: #e2dccf; }
+.pm-road { stroke: #fff; }
+.pm-road--minor { stroke: #faf8f4; }
+.pm-path { fill: none; stroke: #93a596; stroke-width: 2.4; stroke-dasharray: 7 6; stroke-linecap: round; }
+.pm-parking path { fill: none; stroke: #eebd22; stroke-width: 4.6; stroke-linecap: round; stroke-linejoin: round; }
+.pm-st { font: italic 400 17px var(--f-body); fill: var(--ink-2); letter-spacing: 0.02em; paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+.pm-place { font: 400 17px var(--f-display); fill: var(--sage-deep); paint-order: stroke; stroke: #f3f0ea; stroke-width: 4px; stroke-linejoin: round; }
+.pm-place--sm { font-size: 13px; stroke: #dde4d4; stroke-width: 3px; }
+.pm-water-label { font: italic 400 24px var(--f-display); fill: #4d6b72; letter-spacing: 0.08em; }
+.pm-lotlabel rect { fill: #fff; stroke: var(--line-strong); stroke-width: 1; }
+.pm-lotlabel text { font: 500 13px var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink); }
+.pm-north circle { fill: #fff; stroke: var(--line-strong); stroke-width: 1; }
+.pm-north path { fill: var(--ink); }
+.pm-north text { font: 500 14px var(--f-display); fill: var(--ink); }
+.pm-pin { cursor: pointer; }
+.pm-pin__halo { fill: var(--ember); opacity: 0.14; }
+.pm-pin__drop { fill: var(--ember); stroke: #fff; stroke-width: 2.5; }
+.pm-pin__dot { fill: #fff; }
+.pm-pin__card rect { fill: #fff; stroke: var(--ink); stroke-width: 1.2; }
+.pm-pin__name { font: 400 21px var(--f-display); fill: var(--ink); }
+.pm-pin__addr { font: italic 400 14px var(--f-body); fill: var(--ink-2); }
+.pm-pin:hover .pm-pin__drop, .pm-pin:focus-visible .pm-pin__drop { fill: var(--ember-2); }
+.pm-pin:focus { outline: none; }
+.pm-pin:focus-visible .pm-pin__card rect { stroke: var(--ember); stroke-width: 3; }
+/* key and directions */
+.pmap__hint { display: none; }
+.pmap__credit { padding: 10px 4px 0; text-align: right; font: italic 400 0.82rem/1.3 var(--f-body); color: var(--ash); }
+.pmap__credit a { border-bottom: 1px solid var(--line); }
+.pmap__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; padding: 18px 4px 6px; }
+.pmap__key { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font: italic 400 1rem/1.3 var(--f-body); color: var(--ink-2); }
+.pmap__key li { display: flex; align-items: center; gap: 10px; }
+.pmap__sw { flex: none; display: inline-block; }
+.pmap__sw--street { width: 30px; height: 5px; border-radius: 3px; background: #eebd22; }
+.pmap__sw--lot { width: 16px; height: 16px; border: 1px dashed #b3a893; background: repeating-linear-gradient(45deg, #ebe5da 0 3px, #d2c8b6 3px 4.4px); }
+.pmap__sw--pin { width: 12px; height: 12px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 0 4px rgba(186, 46, 40, 0.16); }
+.pmap__go { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.pmap__go-label { font: italic 400 1rem/1 var(--f-body); color: var(--ash); }
+.pmap__go-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pmap__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0.7em 1.1em; font: 500 0.72rem/1 var(--f-display); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--line-strong); background: #fff; transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease), color 0.3s var(--ease); }
+.pmap__btn:hover { border-color: var(--ink); background: var(--ink); color: #fff; }
 
 /* Footer */
 .ftr { background: var(--paper-2); border-top: 1px solid var(--line); padding: clamp(56px, 9vh, 110px) var(--gutter) 36px; }
@@ -342,7 +389,19 @@ body.no-webgl .table__head { position: relative; top: auto; left: auto; padding:
   .statement__ink { position: relative; right: auto; top: auto; transform: none; width: min(84%, calc((100svh - var(--hdr-h) - 48px) * 1.0817)); margin: 0 0 32px auto; }
   .visit__bg { left: auto; right: calc(-30vw - var(--gutter)); width: 120vw; opacity: 0.08; }
   .visit__map { padding: 8px; }
-  .visit__map figcaption { justify-content: center; text-align: center; font-size: 0.98rem; }
+  /* on phones the map keeps a readable scale and scrolls sideways; it opens centred on the restaurant */
+  .pmap__scroll { overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .pmap__svg { width: 860px; max-width: none; }
+  .pmap__hint { display: block; margin-top: 10px; text-align: center; font: italic 400 0.95rem/1.35 var(--f-body); color: var(--ash); text-wrap: balance; }
+  .pmap__credit { text-align: center; }
+  .pmap__bar { flex-direction: column; align-items: stretch; padding: 14px 2px 4px; }
+  .pmap__key { justify-content: center; font-size: 0.95rem; }
+  .pmap__go { flex-direction: column; align-items: stretch; }
+  .pmap__go-label { text-align: center; }
+  .pmap__go-list { display: grid; grid-template-columns: repeat(6, 1fr); }
+  .pmap__go-list li { grid-column: span 2; }
+  .pmap__go-list li:nth-child(-n+2) { grid-column: span 3; }
+  .pmap__btn { width: 100%; min-height: 46px; padding: 0.7em 0.4em; letter-spacing: 0.12em; }
   .define__line { font-size: 1.55rem; }
   .plate, .family, .menu, .cantina__grid, .visit__grid, .ftr__grid { grid-template-columns: 1fr; }
   .hero__actions .btn { min-width: 220px; }

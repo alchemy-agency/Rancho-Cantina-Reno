@@ -121,6 +121,31 @@ if (!reduce) {
   gsap.from(nodes, { y: 18, opacity: 0, duration: 0.8, stagger: 0.03, ease: 'power3.out', scrollTrigger: { trigger: line, start: 'top 78%' } })
 }
 
+/* ---------- parking map: open centred on the restaurant on phones, draw the parking in ---------- */
+const pmap = q('.pmap__scroll')
+if (pmap) {
+  const centreOnPin = () => {
+    if (pmap.scrollWidth <= pmap.clientWidth) return
+    const svg = q('svg', pmap); const pin = q('.pm-pin', pmap)
+    const s = svg.getBoundingClientRect(); const p = pin.getBoundingClientRect()
+    const x = p.left + p.width / 2 - s.left
+    pmap.scrollLeft = Math.max(0, x - pmap.clientWidth * 0.36)
+  }
+  centreOnPin()
+  window.addEventListener('resize', centreOnPin)
+  if (!reduce) {
+    const lines = qa('.pm-parking path', pmap)
+    lines.forEach((l) => { const len = l.getTotalLength(); l.style.strokeDasharray = `${len} ${len}`; l.style.strokeDashoffset = String(len) })
+    ScrollTrigger.create({
+      trigger: pmap, start: 'top 75%', once: true,
+      onEnter: () => {
+        gsap.to(lines, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', stagger: 0.04 })
+        gsap.from(q('.pm-pin g', pmap), { y: -26, opacity: 0, duration: 0.9, ease: 'back.out(2)', delay: 0.5 })
+      },
+    })
+  }
+}
+
 /* ---------- visit: the ghosted building drifts ---------- */
 if (!reduce) {
   gsap.fromTo('.visit__bg img', { yPercent: 6 }, { yPercent: -6, ease: 'none', scrollTrigger: { trigger: '.visit', start: 'top bottom', end: 'bottom top', scrub: true } })
