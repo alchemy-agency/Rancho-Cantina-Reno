@@ -98,29 +98,6 @@ if (!reduce) {
   }
 }
 
-/* ---------- definition line: word by word ---------- */
-if (!reduce) {
-  const line = q('.define__line')
-  const nodes = []
-  const walk = (el) => {
-    [...el.childNodes].forEach((n) => {
-      if (n.nodeType === 3 && n.textContent.trim()) {
-        const frag = document.createDocumentFragment()
-        n.textContent.split(/(\s+)/).forEach((part) => {
-          if (!part) return
-          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return }
-          const s = document.createElement('span'); s.className = 'wd'; s.style.display = 'inline-block'; s.textContent = part
-          frag.appendChild(s); nodes.push(s)
-        })
-        n.replaceWith(frag)
-      } else if (n.nodeType === 1 && !n.classList.contains('glyph')) walk(n)
-      else if (n.nodeType === 1) nodes.push(n)
-    })
-  }
-  walk(line)
-  gsap.from(nodes, { y: 18, opacity: 0, duration: 0.8, stagger: 0.03, ease: 'power3.out', scrollTrigger: { trigger: line, start: 'top 78%' } })
-}
-
 /* ---------- parking map: open centred on the restaurant on phones, draw the parking in ---------- */
 const pmap = q('.pmap__scroll')
 if (pmap) {
@@ -141,6 +118,7 @@ if (pmap) {
       onEnter: () => {
         gsap.to(lines, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', stagger: 0.04 })
         gsap.from(q('.pm-pin g', pmap), { y: -26, opacity: 0, duration: 0.9, ease: 'back.out(2)', delay: 0.5 })
+        gsap.from(qa('.pm-lm', pmap), { opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power2.out', delay: 0.9 })
       },
     })
   }
@@ -211,6 +189,7 @@ const mm = gsap.matchMedia()
 mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
   const pin = q('[data-trail]')
   const track = q('[data-trail-track]')
+  gsap.from('.trail__intro', { y: 24, opacity: 0, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: '.trail', start: 'top 70%' } })
   const distance = () => track.scrollWidth - window.innerWidth
   const tween = gsap.to(track, {
     x: () => -distance(), ease: 'none',
@@ -229,7 +208,7 @@ mm.add('(max-width: 899px)', () => {
 
 /* ---------- batch reveals ---------- */
 if (!reduce) {
-  const targets = qa('.menu__head, .mgroup, .cantina__intro > *, .tile, .family__copy > *, .family__photo, .visit__addr > *, .hours, .visit__map, .ftr__brand, .club, .ftr__meta')
+  const targets = qa('.menu__head, .mgroup, .cantina__intro > *, .tile, .family__copy > *, .family__photo, .visit__addr > *, .visit__hours, .visit__map, .ftr__brand, .club, .ftr__meta')
   gsap.set(targets, { y: 28, opacity: 0 })
   ScrollTrigger.batch(targets, { start: 'top 90%', once: true, onEnter: (batch) => gsap.to(batch, { y: 0, opacity: 1, duration: 1.1, stagger: 0.08, ease: 'power3.out', overwrite: true }) })
 }
@@ -244,9 +223,10 @@ if (finePointer && !reduce) {
   })
 }
 
-/* ---------- reserve modal ---------- */
-const modal = q('#reserveModal')
-const form = q('[data-reserve-form]')
+/* ---------- grand opening waitlist modal ---------- */
+// Reservations are not open yet, so every "Join the Waitlist" button opens this email form instead.
+const modal = q('#waitlistModal')
+const form = q('[data-waitlist-form]')
 let lastFocus = null
 const inertTargets = () => qa('.skip, #main, #hdr, footer')
 const openModal = () => {
@@ -255,21 +235,21 @@ const openModal = () => {
   inertTargets().forEach((el) => { el.inert = true })
   if (lenis) lenis.stop()
   document.documentElement.style.overflow = 'hidden'
-  const date = q('#rsvDate')
-  if (date && !date.value) { const fmt = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; const d = new Date(); date.min = fmt(d); d.setDate(d.getDate() + 1); date.value = fmt(d) }
-  if (!reduce) gsap.fromTo('.modal__panel', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' })
-  setTimeout(() => q('#rsvParty')?.focus(), 50)
+  if (!reduce) gsap.fromTo('#waitlistModal .modal__panel', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' })
+  // focus the dialog first so phones do not jump straight into the keyboard
+  setTimeout(() => q('#waitlistModal .modal__panel').focus({ preventScroll: true }), 50)
 }
 const closeModal = () => { modal.hidden = true; inertTargets().forEach((el) => { el.inert = false }); if (lenis) lenis.start(); document.documentElement.style.overflow = ''; lastFocus?.focus?.() }
-qa('.js-reserve').forEach((b) => b.addEventListener('click', openModal))
+qa('.js-waitlist').forEach((b) => b.addEventListener('click', openModal))
 qa('[data-close]', modal).forEach((el) => el.addEventListener('click', closeModal))
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal() })
 form?.addEventListener('submit', (e) => {
   e.preventDefault()
-  const data = new FormData(form)
-  let done = form.querySelector('.rsv__done')
-  if (!done) { done = document.createElement('p'); done.className = 'rsv__done'; form.appendChild(done) }
-  done.textContent = `Placeholder handoff: ${data.get('party')}, ${data.get('date')} at ${data.get('time')}. The live site will open OpenTable with these details.`
+  const input = q('input', form); const msg = q('.wl__msg', form)
+  if (!input.value || !input.checkValidity()) { input.setAttribute('aria-invalid', 'true'); msg.textContent = 'Enter a valid email address.'; input.focus(); return }
+  input.removeAttribute('aria-invalid')
+  msg.textContent = 'You are on the list. We will write before opening night.'; input.value = ''
+  gwJoin()
 })
 
 /* ---------- giveaway lightbox: once per new visitor ---------- */

@@ -4,19 +4,40 @@
 
 `concepts/concept-c` is the direction the client chose: **Concept B on a white page, with Concept A's best frames brought over**. It deploys to the Vercel project `rancho-reno-concept-c`.
 
-| Section | Source | Client notes applied |
+Each section has one job, and each idea has one home, so the page reads as one unfolding story: opening = promise; building = atmosphere; menu = what you'll eat; cantina = when you'll gather; heritage = where the influences came from; family = who's behind it. Fire and parrilla words live in the Statement; the river lives in the Building headline (elsewhere only the street name "Riverside Drive" appears); ranch roots and family recipes live in the Family section.
+
+| Section | Source | What it says / does |
 |---|---|---|
-| Header | B | B's labels kept (Menu, Dishes, Cantina / Heritage, Visit, Reserve a Table). Transparent over the film, white band once you scroll; the small wordmark waits until the large one has left. |
-| Hero | A | Full-bleed brand film, the large RANCHO CANTINA / RENO wordmark, "Wood-fired Mex-Western cooking on the banks of the Truckee River. Opening this winter." |
-| Statement | A | Copy left, roping cowboy right, on white. "almond wood, mesquite, and iron". |
-| Building | B | "...steps from the water. Riverfront patio, a full bar, and an open-fire parrilla at the heart of the kitchen." |
-| From the fire to the table | B | Each dish name now hangs under its own arch and moves with it. Names corrected to what is on each plate (Carne Asada, Whole Fish, Taco Trio, BBQ Oysters, Mexican Chicken Wings, Vaquero Platter). The scroll ends square on the last plate. |
-| Menu | B | "Menu highlights"; the Executive Chef line is removed. |
-| Cantina | B | "Tequila, mezcal, and a river view." |
-| Rancho, noun + Heritage | B | Unchanged copy apart from "almond wood"; the definition now introduces the Heritage trail. The roping cowboy leads the statement, so the buckaroo stop wears the hat and "today" is a Truckee trout. |
-| Family | B | "Rancho Cantina is a family restaurant first, built on ranching roots and family recipes." New photo: the Rancho Cantina menu, chips and guacamole, hearth behind (`family-rancho-*.webp`, cropped from the client's notes; swap for the original file). |
-| Visit | A | A's layout and copy; "Riverfront patio. Full bar. Free street parking on Jones and connecting streets." Below it, a movable parking map (MapLibre on OpenFreeMap vector tiles, styled in the site's palette; drag, zoom, and a button back to the restaurant) showing free street parking and the 90+ spot lot as marked on the client's map, with directions via Google Maps, Apple Maps, Waze, Uber and Lyft. A drawn version of the same map (from OpenStreetMap data) shows first and stays as the fallback without WebGL or map tiles. MapLibre is served from `public/vendor/` (update with `npm run vendor:maplibre`). |
-| Footer | B | New Club Rancho copy; Lafayette and Danville link removed; placeholder credit line removed. |
+| Header | B | Menu, Dishes, Cantina / Heritage, Visit, **Join the Waitlist**. Transparent over the film, white band once you scroll. |
+| Hero | A | Full-bleed brand film, large RANCHO CANTINA / RENO wordmark. "Mex-Western cooking, opening in Reno this winter." Buttons: **Join the Grand Opening Waitlist**, See the Menu. |
+| Statement | A | "Wood-fired cooking. Rooted in tradition. Timeless West." and the one sentence about the parrilla: "almond wood, mesquite, and iron." |
+| Building | B | Atmosphere: "Brick, timber, and the Truckee out front." A covered patio, warm lights at dusk, room for long evenings. Links to Directions and parking. |
+| From the fire to the table | B | Each dish name hangs under its own arch (Carne Asada, Whole Fish, Taco Trio, BBQ Oysters, Mexican Chicken Wings, Vaquero Platter). |
+| Menu highlights | B | Eleven dishes in one pattern: what it is and how it is cooked, then what is in it or served with it, one sentence each. BBQ Oysters uses the client's wording ("Fresh oysters flame-grilled over an open fire..."). |
+| Cantina | B | "Gather for happy hour, Taco Tuesdays, and Sunday brunch." |
+| Heritage | B | One line above the illustrations, "Rancho's story runs from the open range to Reno.", then the vaquero, the ranch table, the buckaroo and the rancho today. The "Rancho, noun" definition section was removed. |
+| Family | B | "Family owned. Family run." Who is behind it: the recipes and the Vaquero spice rub come from the family's ranching roots. |
+| Visit | A | "Find us in Reno's Powning District." Address, "Next door to Hub Coffee Roasters and Dorinda's Chocolates", the three parking facts, and the hours under a **Coming soon / Planned hours** headline. |
+| Footer | B | Club Rancho signup. |
+
+### Waitlist, not reservations
+
+Reservations are not open, so there is no "Reserve a Table" anywhere. Every call to action (`.js-waitlist`) opens one email form (`#waitlistModal`) that says "Reservations are not open yet" and signs the guest up. It is a placeholder like the Club Rancho form: wire both to the real list (Squarespace form or newsletter block, Mailchimp, Klaviyo) at launch. The hours block is headed "Coming soon: planned hours" so it cannot be read as "open now".
+
+### Parking map
+
+The map under the Visit section matches the client's own parking map. The rules it follows:
+
+- **Free street parking** is a yellow line on Jones, Vine, Winter and Washington Streets.
+- **The public lot** (90+ spots, Jones Street between Keystone Avenue and Vine Street) is a blue area with a "P" label, never a line, so the two cannot be confused. The key and the three parking lines in the Visit text use the same swatches.
+- **Riverside Drive has no street parking** and none is shown. Every yellow line is trimmed to end at least 15 m from Riverside Drive's centerline (measured against the OpenStreetMap road in the tiles), which removes the ends that used to run into the Riverside Drive junction.
+- **Hub Coffee Roasters and Dorinda's Chocolates** (both 727 Riverside Drive, next door) are marked as landmarks: ink badges on tinted building footprints.
+
+Data lives in `src/pmap-data.js` (`PARKING`, `LOT`, `LANDMARKS`, `PIN`). The interactive map (`src/pmap-live.js`, MapLibre on OpenFreeMap tiles) draws from it, and the drawn fallback in `index.html` (`.pmap__svg`) is the same geometry projected into a 1120 x 760 frame. If you change `PARKING`, regenerate the `<g class="pm-parking">` paths from the same coordinates (frame: lon -119.826021 to -119.819499, lat 39.520469 to 39.523905).
+
+Landmark names choose the first free side of their badge (right, lower right, upper right, below, above, left) so they never cover the pin, its address card, the lot label or each other; where none fits only the badge shows and a tap reveals the name.
+
+One thing to confirm with the client: Hub Coffee is mapped in OpenStreetMap, but Dorinda's Chocolates (727 Riverside Dr., Ste. E) is not, so its badge sits on the north end of the same row of buildings, beside Jones Street, as on the client's map. If it is actually in a neighbouring building, change its `at` and `footprint` in `LANDMARKS`.
 
 The two exploratory concepts below are kept for reference.
 
@@ -55,7 +76,9 @@ Two single-page concept sites for the new Reno location (700 Riverside Drive, Po
 
 Both concepts ship a custom scrollbar matched to their palette: an ember thumb on an ink track for A, a sage thumb on a paper track for B. Squared off to match the page, `scrollbar-width`/`scrollbar-color` for Firefox and `::-webkit-scrollbar` elsewhere.
 
-## Reserve CTA
+## Reserve CTA (Concepts A and B)
+
+Concept C has no reservation button: reservations are not open, so its calls to action join the grand opening waitlist (see above).
 
 There is no sticky bottom bar. Reserve a Table appears in the header, in the hero, in the mobile menu sheet, and in the Visit section, and it always opens the same modal.
 
