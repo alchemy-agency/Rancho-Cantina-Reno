@@ -39,6 +39,10 @@ Landmark names choose the first free side of their badge (right, lower right, up
 
 One thing to confirm with the client: Hub Coffee is mapped in OpenStreetMap, but Dorinda's Chocolates (727 Riverside Dr., Ste. E) is not, so its badge sits on the north end of the same row of buildings, beside Jones Street, as on the client's map. If it is actually in a neighbouring building, change its `at` and `footprint` in `LANDMARKS`.
 
+### Going live, and Squarespace
+
+`concept-c/SQUARESPACE.md` has the research on putting Concept C on Squarespace (what 7.1 can and cannot host, which options keep the design intact and which keep it editable, a one-day spike to run first, and a go-live checklist for the domain).
+
 The two exploratory concepts below are kept for reference.
 
 ---
