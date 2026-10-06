@@ -70,7 +70,7 @@ await page.goto(BASE + '/admin/')
 // wrong password first
 await page.fill('input[name=password]', 'nope'); await page.click('button'); await page.waitForSelector('.e')
 results.wrongPassword = await page.textContent('.e')
-await page.fill('input[name=password]', 'rancho-demo'); await page.click('button')
+await page.fill('input[name=password]', process.env.EDITOR_PASSWORD || ''); await page.click('button')
 await page.waitForSelector('#hours .row')
 await page.screenshot({ path: 'shots/admin-1-loaded.png', fullPage: true })
 // announcement + giveaway off

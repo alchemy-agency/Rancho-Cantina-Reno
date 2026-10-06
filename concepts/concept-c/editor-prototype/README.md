@@ -14,7 +14,8 @@ owner has not yet decided whether to use it.
 - `admin/config.php`: holds the password hash. Empty on purpose: set it first (instructions inside).
 - `make_template.py <folder>`: turns a built `dist/index.html` into `index.template.html` (adds marker comments for
   hours, menu, announcement and the pop-up, plus a few lines of CSS for the announcement) and `content.default.json`.
-- `test.mjs`: the Playwright checks that were used (expects a PHP server on 127.0.0.1:8187; adjust).
+- `test.mjs`: the Playwright checks that were used (expects a PHP server on 127.0.0.1:8187; adjust; run with
+  `EDITOR_PASSWORD=<the password you hashed into config.php>`).
 
 ## To try it locally
 1. `cd ../ && npm run build`, copy `dist/` to a scratch folder `site/`.
