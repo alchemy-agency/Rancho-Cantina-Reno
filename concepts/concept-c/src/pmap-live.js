@@ -63,7 +63,7 @@ const hatch = () => {
 const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild }
 
 export async function createLiveMap(container) {
-  const [mod] = await Promise.all([import(/* @vite-ignore */ `${LIB}maplibre-gl.mjs`), loadCss()])
+  const [mod] = await Promise.all([import(/* @vite-ignore */ `${LIB}maplibre-gl.js`), loadCss()])
   const maplibregl = mod.default || mod
   const narrow = container.clientWidth < 600
   const map = new maplibregl.Map({

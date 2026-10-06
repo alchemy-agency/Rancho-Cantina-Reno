@@ -1,0 +1,151 @@
+# =============================================================================
+# Rancho Cantina Reno  -  static Vite build, served from a domain/subdomain ROOT
+# SiteGround shared hosting (Apache 2.4 behind SiteGround's Nginx, TLS ends before Apache)
+#
+# Upload the CONTENTS of dist/ plus this file into the document root
+# (e.g. public_html/ or the subdomain's folder). Do not upload the dist folder itself.
+#
+# Every directive below sits inside an <IfModule> guard, so a module that is not
+# loaded can never turn into a 500 error. The one core directive (Options -Indexes)
+# cannot be guarded by a module name; it needs AllowOverride Options, which shared
+# hosting such as SiteGround allows.
+#
+# Deliberately NOT here:
+#   * HTTP->HTTPS and www redirects: use Site Tools > Security > HTTPS Enforce.
+#     A rule keyed on %{HTTPS} can loop behind SiteGround's Nginx.
+#   * Content-Security-Policy: the interactive map (module + blob worker + tiles from
+#     tiles.openfreemap.org) and the video would need a long, fragile allow-list.
+#   * Any rewrite that sends unknown paths to index.html: the site is one page with
+#     #anchors, so a missing URL must be a real 404.
+# =============================================================================
+
+
+# ---- 1. Directories ---------------------------------------------------------
+<IfModule mod_dir.c>
+  DirectoryIndex index.html
+</IfModule>
+
+# Never list a folder that has no index file (answers 403 instead of a file listing).
+<IfModule mod_autoindex.c>
+  Options -Indexes
+</IfModule>
+
+
+
+# ---- 2. MIME types ----------------------------------------------------------
+# ES modules and module workers are refused by browsers unless the file is served
+# with a JavaScript MIME type, and .mjs is not in every host's MIME table.
+<IfModule mod_mime.c>
+  AddType text/javascript            .js .mjs
+  AddType text/css                   .css
+  AddType application/json           .json .map
+  AddType application/manifest+json  .webmanifest
+  AddType image/svg+xml              .svg
+  AddType image/webp                 .webp
+  AddType image/avif                 .avif
+  AddType video/mp4                  .mp4 .m4v
+  AddType video/webm                 .webm
+  AddType font/woff2                 .woff2
+  AddType font/woff                  .woff
+  AddType font/ttf                   .ttf
+  AddType font/otf                   .otf
+
+  # text/html and text/plain get "; charset=UTF-8" ...
+  AddDefaultCharset UTF-8
+  # ... and so do the text assets that can carry one.
+  AddCharset UTF-8 .css .js .mjs .json .svg .txt
+</IfModule>
+
+
+# ---- 3. Compression (text only) --------------------------------------------
+# Not listed on purpose: video (mp4/webm), images (webp), fonts (woff2). They are
+# already compressed; running deflate over them only burns CPU.
+<IfModule mod_deflate.c>
+  <IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json application/manifest+json
+    AddOutputFilterByType DEFLATE application/xml text/xml image/svg+xml image/x-icon
+    AddOutputFilterByType DEFLATE font/ttf font/otf application/vnd.ms-fontobject
+  </IfModule>
+</IfModule>
+
+
+# mod_deflate rewrites the ETag of a compressed answer from "x" to "x-gzip", but when the
+# browser sends that value back Apache only compares it with "x", so every revalidation
+# of a compressed file (index.html above all) got a full 200 instead of a 304. This
+# hands Apache both spellings. It does nothing where the ETag has no -gzip suffix.
+<IfModule mod_headers.c>
+  RequestHeader edit "If-None-Match" '^"((.*)-gzip)"$' '"$1", "$2"'
+</IfModule>
+
+
+# ---- 4. Caching -------------------------------------------------------------
+# /assets/* has content-hashed file names. /img /fonts /ink /vendor /video do NOT:
+# if one of those files is replaced under the same name, browsers that already
+# have it keep the old copy for a year. Give a changed file a new name
+# (hero-v2.webp) or change the rule below.
+# The match is unanchored, so it also works if the site is ever placed in a sub-folder.
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "(^|/)(assets|img|fonts|ink|vendor|video)/" RC_IMMUTABLE
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Everything else (favicon.svg, robots.txt, ...): one day.
+  Header set Cache-Control "public, max-age=86400"
+
+  # Long-lived files. env=... only matches the directories above; "Header set" (without
+  # "always") is applied to 2xx answers only, so a 404 is never cached for a year.
+  Header set Cache-Control "public, max-age=31536000, immutable" env=RC_IMMUTABLE
+
+  # The page itself: always revalidate, so a new deploy shows at once.
+  # Matches "/" too, because the DirectoryIndex request is served as index.html.
+  <FilesMatch "^index\.html?$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# Fallback only when mod_headers is missing: same idea with mod_expires (by type,
+# since it cannot see the folder). Never active together with the block above.
+<IfModule !mod_headers.c>
+  <IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 day"
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+  </IfModule>
+</IfModule>
+
+
+# ---- 5. Security headers ----------------------------------------------------
+# "always" so the headers are also on 403/404 answers.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # The site never asks for any of these, so they are switched off for it and for any
+  # embedded frame. Autoplay (muted hero film), fullscreen and WebGL are left alone.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always unset X-Powered-By
+
+  # Turn on only after https:// works on the real domain (browsers remember it):
+  # Header always set Strict-Transport-Security "max-age=31536000"
+</IfModule>
+
+
+# ---- 6. Things that must not be downloadable --------------------------------
+# Dot-folders and dot-files (.git, .env, .DS_Store ...) except /.well-known/ (certificate
+# checks), source maps (none are shipped; browsers only ask for them when DevTools is
+# open) and common leftovers. Answers 403.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule "(^|/)\.(?!well-known(/|$))" - [F,L]
+  RewriteRule "(\.(map|bak|old|orig|swp|sql|log|ini|sh|env)|~)$" - [F,L]
+</IfModule>
+
+# Unknown paths: nothing to do. Apache answers 404 by itself; no rewrite to index.html.
